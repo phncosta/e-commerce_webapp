@@ -1,5 +1,7 @@
+using HeavensHall.Commerce.Application.Configurations;
 using HeavensHall.Commerce.Infrastructure.Configurations;
 using HeavensHall.Commerce.Infrastructure.Data.Context;
+using HeavensHall.Commerce.Web.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +23,17 @@ namespace HeavensHall.Commerce
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                    .AddRazorRuntimeCompilation(); // Runtime compilation will be used to speed up front-end development. Temporary.
 
             services.AddDbContext<AppDbContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnectionString")));
 
+            services.AddAutoMapper(typeof(MapperProfile));
+
             services.AddInfrastructure();
+
+            services.AddApplication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,33 +4,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          rel="stylesheet" /> <!-- Font Awesome -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet" /> <!-- Google Fonts -->
+    <link href="~/lib/mdb/dist/css/mdb.min.css"
+          rel="stylesheet"> <!-- Material Design Bootstrap -->
+    <link href="~/css/style.min.css"
+          rel="stylesheet"> <!-- Custom Style -->
+    <link href="~/lib/wow/css/libs/animate.css"
+          rel="stylesheet"> <!-- Animate Wow Plugin CSS -->
+    <link href="~/css/media/carousel.css"
+          rel="stylesheet"> <!-- Carousel Media CSS -->
+    <link href="~/css/site.css"
+          rel="stylesheet"> <!-- Base Site CSS -->
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light scrolling-navbar">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Heaven's Hall Instrumentos Musicais</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <a class="navbar-brand" asp-controller="home" asp-action="index">Heaven's Hall</a>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarText"
+                        aria-controls="navbarText"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link active" aria-current="page" href="#">Início</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" href="#">Instrumentos Musicais</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="products" asp-action="ProductDetails">Detalhes do Produto</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="admin" asp-action="home">Admin Home</a>
+                            <a class="nav-link" href="#">Contato</a>
                         </li>
                     </ul>
+                    <i class="fas fa-shopping-cart">Carrinho</i>
                 </div>
             </div>
         </nav>
@@ -41,13 +57,69 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Projeto Integrador por Paulo Costa - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!--Footer-->
+    <footer class="page-footer bg-dark text-center font-small mt-4 wow fadeIn" style="bottom: 0 !important;">
+
+        <!--Call to action-->
+        <div class="pt-4">
+            <a class="btn btn-outline-white" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank"
+               role="button">
+                Download MDB
+                <i class="fas fa-download ml-2"></i>
+            </a>
+            <a class="btn btn-outline-white" href="https://mdbootstrap.com/education/bootstrap/" target="_blank" role="button">
+                Start
+                free tutorial
+                <i class="fas fa-graduation-cap ml-2"></i>
+            </a>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Social icons -->
+        <div class="pb-4">
+            <a href="https://www.facebook.com/mdbootstrap" target="_blank">
+                <i class="fab fa-facebook-f mr-3"></i>
+            </a>
+
+            <a href="https://twitter.com/MDBootstrap" target="_blank">
+                <i class="fab fa-twitter mr-3"></i>
+            </a>
+
+            <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
+                <i class="fab fa-youtube mr-3"></i>
+            </a>
+
+            <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
+                <i class="fab fa-google-plus-g mr-3"></i>
+            </a>
+
+            <a href="https://dribbble.com/mdbootstrap" target="_blank">
+                <i class="fab fa-dribbble mr-3"></i>
+            </a>
+
+            <a href="https://pinterest.com/mdbootstrap" target="_blank">
+                <i class="fab fa-pinterest mr-3"></i>
+            </a>
+
+            <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
+                <i class="fab fa-github mr-3"></i>
+            </a>
+
+            <a href="http://codepen.io/mdbootstrap/" target="_blank">
+                <i class="fab fa-codepen mr-3"></i>
+            </a>
+        </div>
+
+        <div class="footer-copyright py-3 text-white-50">
+            © 2021 Projeto Integrador por Paulo Costa
         </div>
     </footer>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript" src="~/lib/mdb/dist/js/mdb.min.js"></script> <!-- MDB Script -->
+    <script type="text/javascript" src="~/lib/wow/dist/wow.js"></script> <!-- Wow Script Animation -->
+    <script type="text/javascript">new WOW().init(); // Animations initialization</script>
+    <script type="text/javascript" src="~/js/site.js"></script> <!-- Base WebSite Script -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

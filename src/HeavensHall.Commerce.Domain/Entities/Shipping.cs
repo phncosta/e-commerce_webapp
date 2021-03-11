@@ -1,11 +1,19 @@
-﻿using System;
+﻿using HeavensHall.Commerce.Domain.Common;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    public class Shipping : Entity
+    [Table("shippings")]
+    public class Shipping : BaseEntity
     {
+        [Column("shipping_charge")]
         public decimal Shipping_Charge { get; set; }
-        public Guid Shipping_Address_Id { get; set; }
-        public Guid Billing_Address_Id { get; set; }
+
+        [Column("shipping_address_id")]
+        public int Shipping_Address_Id { get; set; }
+
+        [Column("billing_address_id")]
+        public int Billing_Address_Id { get; set; }
     }
 }

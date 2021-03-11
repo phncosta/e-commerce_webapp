@@ -18,19 +18,19 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
             _Context = context;
         }
 
-        public async Task Add(T obj)
+        public async Task Add(T entity)
         {
-            await _Context.Set<T>().AddAsync(obj);
+            await _Context.Set<T>().AddAsync(entity);
             await _Context.SaveChangesAsync();
         }
 
-        public async Task Remove(T obj)
+        public async Task Remove(T entity)
         {
-            _Context.Set<T>().Remove(obj);
+            _Context.Set<T>().Remove(entity);
             await _Context.SaveChangesAsync();
         }
 
-        public async Task<T> GetById(Guid id)
+        public async Task<T> GetById(int id)
         {
             return await _Context.Set<T>().FindAsync(id);
         }
@@ -40,10 +40,20 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
             return await _Context.Set<T>().ToListAsync();
         }
 
-        public async Task Update(T obj)
+        public async Task Update(T entity)
         {
-            _Context.Set<T>().Update(obj);
+            _Context.Set<T>().Update(entity);
             await _Context.SaveChangesAsync();
+        }
+
+        public virtual void SetModified(T entity)
+        {
+            _Context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public virtual void SetRemoved(T entity)
+        {
+            _Context.Entry(entity).State = EntityState.Deleted;
         }
 
         #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose

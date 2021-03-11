@@ -1,0 +1,38 @@
+﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+@model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>;
+
+
+@functions {
+    private string GetProductStatus(bool statusActive) => statusActive ? Status.Desativar.ToString() : Status.Ativar.ToString();
+}
+
+<div class="container">
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nome do Produto</th>
+                <th scope="col">Qtd. Estoque</th>
+                <th scope="col">Status</th>
+                <th scope="col">Editar</th>
+                <th scope="col">Inativar/Reativar</th>
+                <th scope="col">Visualizar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Stock.Quantity</td>
+                <td>@product.Is_Active</td>
+                <td>Editar</td>
+                <td>@GetProductStatus(product.Is_Active)</td>
+                <td>Visualizar produto</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

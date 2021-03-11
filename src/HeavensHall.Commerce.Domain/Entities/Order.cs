@@ -1,16 +1,31 @@
-﻿
+﻿using HeavensHall.Commerce.Domain.Common;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    public class Order : Entity
+    [Table("orders")]
+    public class Order : BaseEntity
     {
+        [Column("total_amout")]
         public decimal Total_Amount { get; set; }
+
+        [Column("discount")]
         public decimal Discount { get; set; }
+
+        [Column("status")]
         public string Status { get; set; }
+
+        [Column("creation_date")]
         public DateTime Creation_Date { get; set; }
-        public Guid Shipping_Id { get; set; }
-        public Guid Payment_Id { get; set; }
-        public Guid User_Id { get; set; }
+
+        [ForeignKey("shipping_id")]
+        public Shipping Shipping { get; set; }
+
+        [ForeignKey("payment_id")]
+        public Payment Payment { get; set; }
+
+        [ForeignKey("user_id")]
+        public User User { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Application.Interfaces.Repository
@@ -9,7 +8,9 @@ namespace HeavensHall.Commerce.Application.Interfaces.Repository
         Task Add(T entity);
         Task Update(T entity);
         Task Remove(T entity);
-        Task<T> GetById(Guid id);
+        Task<T> GetById(int id);
         Task<List<T>> GetAll();
+        void SetModified(T entity);
+        void SetRemoved(T entity);
     }
 }

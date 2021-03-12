@@ -1,71 +1,59 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/* -------------------------------- [GENERAL CONTENT] -------------------------------- */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+header {
+    margin-bottom: 80px; /* Match navbar size */
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+#footer {
+    z-index: 100;
+    bottom: 0;
+    width: 100%;
+    margin-top: 200px;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-close-attach {
+    color: red;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 600;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.warning-box {
+    font-size: 1rem;
+    color: white;
+    position: fixed;
+    left: 50%;
+    top: 5%;
+    z-index: 2000;
+    transform: translate(-50%, 0);
+    background: red;
+    text-align: center;
+    width: 80vw;
+    padding: .5rem;
+    opacity: 0;
+    border-radius: 0.75rem;
+    animation: 5s ease-in 1 fade-out;
+    animation-iteration-count: 1;
+    box-shadow: 3px 3px 3px rgba(0,0,0,.2);
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+.success-box {
+    font-size: 1.2rem;
+    color: white;
+    position: fixed;
+    left: 50%;
+    top: 5%;
+    z-index: 2000;
+    transform: translate(-50%, 0);
+    background: green;
+    text-align: center;
+    width: 80vw;
+    padding: .5rem;
+    opacity: 0;
+    border-radius: 0.75rem;
+    animation: 5s ease-in 1 fade-out;
+    animation-iteration-count: 1;
+    box-shadow: 3px 3px 3px rgba(0,0,0,.2);
 }

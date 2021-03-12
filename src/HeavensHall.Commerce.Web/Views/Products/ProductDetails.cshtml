@@ -1,3 +1,102 @@
-﻿
+﻿@model HeavensHall.Commerce.Web.Models.ProductModel;
 
-<h1>This is the Product Details</h1>
+<main class="mt-5 pt-4 container">
+    <div class="container dark-grey-text mt-5">
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+                <img src="..\img\products\category\@Model.Image_Path" class="img-fluid" alt="">
+            </div>
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-4">
+
+                <!--Content-->
+                <div class="p-4">
+                    <div class="mb-3">
+                        <a href="">
+                            <span class="badge purple mr-1">Instrumento de @Model.Category.Name</span>
+                        </a>
+                        <a href="">
+                            <span class="badge blue mr-1">Novo</span>
+                        </a>
+                        <a href="">
+                            <span class="badge red mr-1">Mais vendido</span>
+                        </a>
+                    </div>
+
+                    <p class="lead">
+                        <span class="mr-1">
+                            <del>R$ @(@Model.Stock.Price + 100)</del>
+                        </span>
+                        <span>R$ @Model.Stock.Price</span>
+                    </p>
+
+                    <p class="lead font-weight-bold">@Model.Name</p>
+                    <p>
+                        @Model.Description
+
+                        <hr class="hr" />
+                        <div class="row">
+                            <label asp-for="@Model.Brand.Name"></label> <label>@Model.Brand.Name</label>
+                        </div>
+                    </p>
+
+                    <form class="d-flex justify-content-left">
+                        <!-- Default input -->
+                        <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+                        <button class="btn btn-primary btn-md my-0 p" type="submit">
+                            Comprar
+                            <i class="fas fa-shopping-cart ml-1"></i>
+                        </button>
+                    </form>
+
+                </div>
+                <!--/Content-->
+
+            </div>
+
+        </div>
+        <!--/Grid row-->
+
+        <hr>
+
+        <!--Grid row-->
+        <div class="row d-flex justify-content-center wow fadeIn">
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+
+                <h4 class="my-4 h4">Produtos semelhantes</h4>
+                <p>
+                    Produtos que você também poderá gostar.
+                </p>
+            </div>
+        </div>
+
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-12 mb-4">
+
+                @*<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">*@
+
+            </div>
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                @*<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">*@
+
+            </div>
+            <!--Grid column-->
+            <div class="col-lg-4 col-md-6 mb-4">
+
+                @*<img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">*@
+
+            </div>
+        </div>
+    </div>
+</main>

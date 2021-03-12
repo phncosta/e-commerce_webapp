@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+// Base JS
 
-// Write your JavaScript code.
+const homeRedirection = () => { window.location.href = '/' }
+const show = field => field.style.display = 'block';
+const hide = field => field.style.display = 'none';
+const clean = field => field.value = '';
+
+const ROOT_FOLDER_PRODUCT_IMG = 'img\products\category';

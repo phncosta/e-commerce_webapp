@@ -1,13 +1,21 @@
-﻿using System;
+﻿using HeavensHall.Commerce.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    public class Product : Entity
+    [Table("products")]
+    public class Product : BaseEntity
     {
+        [Column("name")]
         public string Name { get; set; }
+
+        [Column("description")]
         public string Description { get; set; }
-        public Guid Category_Id { get; set; }
-        public Guid Product_Details_Id { get; set; }
-        public Guid Brand_Id { get; set; }
+
+        [ForeignKey("brand_id")]
+        public Brand Brand { get; set; }
+
+        [ForeignKey("category_id")]
+        public Category Category { get; set; }
     }
 }

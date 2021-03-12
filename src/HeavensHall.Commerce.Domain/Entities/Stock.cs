@@ -1,12 +1,18 @@
-﻿
-using System;
+﻿using HeavensHall.Commerce.Domain.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    public class Stock : Entity
+    [Table("stock")]
+    public class Stock : BaseEntity
     {
-        public Guid Product_Id { get; set; }
-        public decimal Price { get; set; }
+        [Column("quantity")]
         public int Quantity { get; set; }
+
+        [Column("price")]
+        public decimal Price { get; set; }
+        
+        [ForeignKey("product_id")]
+        public Product Product { get; set; }
     }
 }

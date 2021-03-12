@@ -33,13 +33,13 @@ namespace HeavensHall.Commerce.Web.Controllers
         {
             await _productService.RegisterProduct(productDTO);
 
-            FileUploader.SaveImage(productDTO.Image_Base64, productDTO.Image_Path, $"products\\category\\{productDTO.Category_Name.ToLower()}");
+            FileManagement.SaveImage(productDTO.Image_Base64, productDTO.Image_Path, $"products\\category\\{productDTO.Category_Name.ToLower()}");
 
             return RedirectToAction("ProductRegistration");
         }
 
         [Route("alterar")]
-        public async Task<IActionResult> UpdateProduct(int id)
+        public async Task<IActionResult> ProductUpdate(int id)
         {
             var productDetail = await _productService.GetProductWithDetails(id);
             var stock = await _productService.GetStockFromProduct(id);

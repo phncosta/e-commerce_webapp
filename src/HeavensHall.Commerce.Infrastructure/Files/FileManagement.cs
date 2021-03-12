@@ -3,7 +3,7 @@ using System.IO;
 
 namespace HeavensHall.Commerce.Infrastructure.Files
 {
-    public static class FileUploader
+    public static class FileManagement
     {
         public static void SaveImage(string base64str, string imageName, string destinationFolder)
         {

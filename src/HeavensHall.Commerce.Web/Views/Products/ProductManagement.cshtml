@@ -1,5 +1,4 @@
 ﻿@using HeavensHall.Commerce.Domain.Enums;
-@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
 @model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>;
 
 
@@ -14,7 +13,6 @@
             <tr>
                 <th scope="col">Nome do Produto</th>
                 <th scope="col">Qtd. Estoque</th>
-                <th scope="col">Status</th>
                 <th scope="col">Editar</th>
                 <th scope="col">Inativar/Reativar</th>
                 <th scope="col">Visualizar</th>
@@ -23,16 +21,77 @@
         <tbody>
             @foreach (var product in Model)
             {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Stock.Quantity</td>
-                <td>@product.Is_Active</td>
-                <td>Editar</td>
-                <td>@GetProductStatus(product.Is_Active)</td>
-                <td>Visualizar produto</td>
-            </tr>
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Stock.Quantity</td>
+                    <td>@GetProductStatus(@product.Is_Active)</td>
+                    <td onclick="editProduct('@product.Id')" class="text-decoration-underline">Editar</td>
+                    <td>@GetProductStatus(product.Is_Active)</td>
+                    <td onclick="visualizeProduct('@product.Id')" class="text-decoration-underline text-blue">Visualizar produto</td>
+                </tr>
             }
         </tbody>
     </table>
 
+    <button class="btn float-end btn-outline-dark p-3" onclick="window.location.href='/produtos/cadastrar'">
+        Adicionar Produto
+    </button>
+
+    <!--Pagination-->
+    <nav class="d-flex justify-content-center wow fadeIn">
+        <ul class="pagination pg-blue">
+
+            <!--Arrow left-->
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+
+            <li class="page-item active">
+                <a class="page-link" href="#">
+                    1
+                    <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">5</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
+
+<style>
+    #footer {
+        bottom: 0;
+        position: fixed;
+    }
+</style>
+
+<script>
+    const editProduct = id => {
+        window.location.href = `/produtos/alterar?id=${id}`;
+    }
+
+    const visualizeProduct = id => {
+        window.location.href = `/produtos/${id}`;
+    }
+</script>

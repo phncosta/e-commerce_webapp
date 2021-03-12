@@ -28,7 +28,7 @@
 
         <!-- Single item -->
         <div class="carousel-item">
-            <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg"
+            <img src="~/img/layout/banners/banner_guitar_01.jpg"
                  class="d-block w-100"
                  alt="..." />
             <div class="carousel-caption d-none d-md-block">
@@ -151,7 +151,7 @@
                             <div class="card">
                                 <!--Card image-->
                                 <div class="view overlay">
-                                    <img src="img\products\category\@product.Image_Path" class="card-img-top"
+                                    <img src="img\products\category\@product.Image_Path" height="350" class="card-img-top"
                                          alt="">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
@@ -163,11 +163,19 @@
                                     </div>
                                     <div class="dark-grey-text">
                                         @product.Brand.Name
-                                        <span class="badge badge-pill danger-color">NEW</span>
                                     </div>
                                     <h4 class="font-weight-bold blue-text">
-                                        <strong>@product.Stock.Price</strong>
+                                        <strong>R$ @product.Stock.Price</strong>
                                     </h4>
+                                </div>
+                                <div class="text-center pb-3">
+                                    <button class="btn btn-outline-primary" type="button" asp-controller="produtos" asp-action="@product.Id" style="width: 30% !important">
+                                        <!--TBD-->
+                                        Ver
+                                    </button>
+                                    <button class="btn btn-primary shadow-2" type="button" href="#" style="width: 40% !important;">
+                                        Comprar
+                                    </button>
                                 </div>
                             </div>
                         </a>

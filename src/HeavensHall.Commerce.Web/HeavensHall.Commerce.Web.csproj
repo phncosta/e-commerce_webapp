@@ -16,8 +16,4 @@
     <ProjectReference Include="..\HeavensHall.Commerce.Infrastructure\HeavensHall.Commerce.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\css\img\products\category\" />
-  </ItemGroup>
-
 </Project>

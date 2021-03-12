@@ -45,7 +45,7 @@ namespace HeavensHall.Commerce.Application.Services
         public async Task UpdateStock(Stock stock) => await _stockRepository.Update(stock);
 
         public async Task<List<ProductDetail>> GetAllProductDetailsByNumberOfRows(int startIndex, int maxRows) =>
-                     await _productDetailRepository.GetAllRelantionshipByPage(startIndex, maxRows);
+                     await _productDetailRepository.GetAllActiveProductRelationshipByPage(startIndex, maxRows);
 
         public async Task RegisterProduct(ProductDTO productDto)
         {

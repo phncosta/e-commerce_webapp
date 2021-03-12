@@ -1,6 +1,6 @@
 ﻿
-const INVALID_FORMAT_MSG = 'Formato de file inválido.';
-const FILE_NOT_INSERTED_MSG = 'Não foi possível inserir o file.';
+const INVALID_FORMAT_MSG = 'Formato de arquivo inválido.';
+const FILE_NOT_INSERTED_MSG = 'Não foi possível inserir o arquivo.';
 const CANNOT_GET_FILE_MSG = 'Não foi possível obter os arquivos.';
 
 /**

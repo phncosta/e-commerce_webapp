@@ -30,7 +30,7 @@ namespace HeavensHall.Commerce.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var productsDetailed = await _productService.GetAllProductDetailsByNumberOfRows(0, 14); // TBD
+            var productsDetailed = await _productService.GetAllProductDetailsByNumberOfRows(0, 10); 
             var products = _mapper.Map(productsDetailed, new List<ProductModel>());
 
             foreach (var product in products)

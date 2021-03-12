@@ -35,12 +35,14 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
                                                  .ToListAsync();
         }
 
-        public async Task<List<ProductDetail>> GetAllRelantionshipByPage(int startIndex, int maxRows)
+        public async Task<List<ProductDetail>> GetAllActiveProductRelationshipByPage(int startIndex, int maxRows)
         {
             return await _Context.Product_Details.Skip(startIndex)
                                                  .Take(maxRows)
+                                                 .Where(p => p.Is_Active)
                                                  .Include(p => p.Product.Brand)
                                                  .Include(p => p.Product.Category)
+                                                 .OrderByDescending(p => p.Rating)
                                                  .ToListAsync();
         }
     }

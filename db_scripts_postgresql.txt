@@ -1,0 +1,81 @@
+CREATE TABLE users (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	password TEXT,
+	is_admin BOOLEAN
+);
+
+CREATE TABLE addresses (
+	id SERIAL PRIMARY KEY,
+	address_1 VARCHAR(200),
+	address_2 VARCHAR(200),
+	city VARCHAR(100),
+	state VARCHAR(100),
+	country varchar(60),
+	postal_code VARCHAR(10),
+	user_id INT REFERENCES users(id)
+);
+
+CREATE TABLE shipping (
+	id SERIAL PRIMARY KEY,
+	shipping_charge NUMERIC,
+	shipping_address_id INT REFERENCES addresses(id),
+	billing_address_id INT REFERENCES addresses(id)
+);
+
+CREATE TABLE categories (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE brands (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE products (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	description TEXT,
+	brand_id INT REFERENCES brands(id),
+	category_id INT REFERENCES categories(id)
+);
+
+CREATE TABLE product_details (
+	id SERIAL PRIMARY KEY,
+	rating REAL,
+	is_active BOOLEAN,
+	color VARCHAR(50),
+	image_path VARCHAR(255),
+	product_id INT REFERENCES products(id)
+);
+
+CREATE TABLE stock (
+	id SERIAL PRIMARY KEY,
+	product_id INT REFERENCES products(id),
+	price NUMERIC,
+	quantity INT NOT NULL
+);
+
+CREATE TABLE payments (
+	id SERIAL PRIMARY KEY,
+	status VARCHAR(80),
+	payment_type VARCHAR(80)
+);
+
+CREATE TABLE orders (
+	id SERIAL PRIMARY KEY,
+	total_amount NUMERIC,
+	discount NUMERIC,
+	creation_date DATE,
+	status varchar(30),
+	shipping_id INT REFERENCES shipping(id),
+	payment_id INT REFERENCES payments(id),
+	user_id INT REFERENCES users(id)
+);
+
+INSERT INTO categories VALUES
+(1, 'Corda'),
+(2, 'Percursão'),
+(3, 'Sopro');

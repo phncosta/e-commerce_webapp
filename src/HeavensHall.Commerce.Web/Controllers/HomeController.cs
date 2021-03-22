@@ -18,6 +18,7 @@ namespace HeavensHall.Commerce.Controllers
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
         private readonly ILogger<HomeController> _logger;
+        private const int PRODUCTS_TO_SELECT = 8;
 
         public HomeController(IProductService productService,
                               IMapper mapper,
@@ -30,7 +31,25 @@ namespace HeavensHall.Commerce.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var productsDetailed = await _productService.GetAllProductDetailsByNumberOfRows(0, 10); 
+            var productsDetailed = await _productService.GetAllProductDetailsByNumberOfRows(0, PRODUCTS_TO_SELECT); 
+            var products = _mapper.Map(productsDetailed, new List<ProductModel>());
+
+            foreach (var product in products)
+            {
+                var stock = await _productService.GetStockFromProduct(product.Id);
+                product.Stock = _mapper.Map<StockModel>(stock);
+            }
+
+            return View("Index", products);
+        }
+
+        [Route("pagina")]
+        public async Task<IActionResult> Pagination(int num)
+        {
+            int maxRowIndex = num * PRODUCTS_TO_SELECT;
+            int minRowIndex = maxRowIndex - PRODUCTS_TO_SELECT;
+
+            var productsDetailed = await _productService.GetAllProductDetailsByNumberOfRows(minRowIndex, maxRowIndex);
             var products = _mapper.Map(productsDetailed, new List<ProductModel>());
 
             foreach (var product in products)

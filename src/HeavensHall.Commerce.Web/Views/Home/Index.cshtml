@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>
+﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+@model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>
 
 @{
     ViewData["Title"] = "Heaven's Hall Store - Instrumentos Musicais";
@@ -21,10 +23,11 @@
                  class="d-block w-100"
                  alt="..." />
             <div class="carousel-caption d-none d-md-block">
-                <h5></h5>
-                <p></p>
+                <h5>Bem-vindo à Heaven's Hall!</h5>
+                <p>A sua loja de instrumentos preferida</p>
             </div>
         </div>
+
 
         <!-- Single item -->
         <div class="carousel-item">
@@ -110,12 +113,12 @@
                             </a>
                             <!-- Dropdown menu -->
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Categoria 1</a></li>
-                                <li><a class="dropdown-item" href="#">Categoria 2</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li>
-                                    <a class="dropdown-item" href="#">Outro</a>
-                                </li>
+                                @{
+                                    foreach (InstrumentCategory category in Enum.GetValues(typeof(InstrumentCategory)))
+                                    {
+                                        <li><a class="dropdown-item" href="#">@category.GetDescription()</a></li>
+                                    }
+                                }
                             </ul>
                         </li>
                     </ul>
@@ -133,11 +136,9 @@
                         </button>
                     </form>
                 </div>
-                <!-- Collapsible wrapper -->
             </div>
-            <!-- Container wrapper -->
         </nav>
-        <!-- Navbar -->
+
         <!--Section: Products v.3-->
         <section class="text-center mb-4">
 
@@ -145,13 +146,15 @@
             <div class="row wow fadeIn">
                 @foreach (var product in Model)
                 {
+                    var image = product.Images?.Where(img => img.Main).SingleOrDefault();
+
                     <!--Grid column-->
                     <div class="col-lg-3 col-md-6 mb-4" style="cursor: pointer;">
                         <a asp-controller="produtos" asp-action="@product.Id">
                             <div class="card">
                                 <!--Card image-->
                                 <div class="view overlay">
-                                    <img src="img\products\category\@product.Image_Path" height="350" class="card-img-top"
+                                    <img src="@if (image != null) { @image.Path }" height="350" class="card-img-top"
                                          alt="">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
@@ -165,7 +168,7 @@
                                         @product.Brand.Name
                                     </div>
                                     <h4 class="font-weight-bold blue-text">
-                                        <strong>R$ @product.Stock.Price</strong>
+                                        <strong>R$ @product.Price</strong>
                                     </h4>
                                 </div>
                                 <div class="text-center pb-3">
@@ -195,7 +198,6 @@
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
-
                 <li class="page-item" id="page-selectable-1">
                     <a class="page-link" href="/pagina?num=1">
                         1

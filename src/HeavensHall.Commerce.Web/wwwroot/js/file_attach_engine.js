@@ -58,7 +58,7 @@ async function attachFiles(input, specificFormat, filledList) {
  * @param {input.files} file
  * @param {string} specificFormat 
  * @param {string} filledList
- * @return {string} lista de file preenchida [optional] -> show_attached_file.js
+ * @return {string} lista de file preenchida [optional] -> manage_attached_files.js
  */
 function readFileAsync(file, specificFormat, filledList) {
 

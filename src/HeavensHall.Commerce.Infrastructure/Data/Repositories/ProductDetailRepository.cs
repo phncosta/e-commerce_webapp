@@ -16,7 +16,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 
         public async Task<ProductDetail> GetProductRelationship(int productId)
         {
-            return await _Context.Product_Details.Where(d => d.Product.Id == productId)
+            return await _Context.ProductDetails.Where(d => d.Product.Id == productId)
                                                  .Include(p => p.Product.Brand)
                                                  .Include(p => p.Product.Category)
                                                  .FirstOrDefaultAsync();
@@ -24,24 +24,23 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 
         public async Task<ProductDetail> GetByProductId(int productId)
         {
-            return await _Context.Product_Details.Where(p => p.Product.Id == productId)
+            return await _Context.ProductDetails.Where(p => p.Product.Id == productId)
                                                                  .FirstOrDefaultAsync();
         }
 
         public async Task<List<ProductDetail>> GetAllRelationships()
         {
-            return await _Context.Product_Details.Include(p => p.Product.Brand)
+            return await _Context.ProductDetails.Include(p => p.Product.Brand)
                                                  .Include(p => p.Product.Category)
                                                  .ToListAsync();
         }
 
-        public async Task<List<ProductDetail>> GetAllActiveProductRelationshipByPage(int startIndex, int maxRows)
+        public async Task<List<ProductDetail>> GetAllActiveProductRelationshipByIndex(int startIndex, int maxRows)
         {
-            return await _Context.Product_Details.Skip(startIndex)
+            return await _Context.ProductDetails.Skip(startIndex)
                                                  .Take(maxRows)
-                                                 .Where(p => p.Is_Active)
-                                                 .Include(p => p.Product.Brand)
-                                                 .Include(p => p.Product.Category)
+                                                 .Include(p => p.Product)
+                                                 .Where(p => p.Product.Is_Active)
                                                  .OrderByDescending(p => p.Rating)
                                                  .ToListAsync();
         }

@@ -7,8 +7,5 @@ namespace HeavensHall.Commerce.Web.Models
     {
         [Display(Name = "Qtd. Estoque")]
         public int Quantity { get; set; }
-
-        [Display(Name = "Preço")]
-        public decimal Price { get; set; }
     }
 }

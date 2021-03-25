@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using HeavensHall.Commerce.Application.DTOs;
 using HeavensHall.Commerce.Application.Interfaces.Service;
+using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Files;
 using HeavensHall.Commerce.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Web.Controllers
@@ -13,12 +15,15 @@ namespace HeavensHall.Commerce.Web.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IImageService _imageService;
         private readonly IMapper _mapper;
 
         public ProductsController(IProductService productService,
-                                  IMapper mapper)
+                                  IMapper mapper,
+                                  IImageService imageService)
         {
             _productService = productService;
+            _imageService = imageService;
             _mapper = mapper;
         }
 
@@ -31,9 +36,24 @@ namespace HeavensHall.Commerce.Web.Controllers
         [Route("cadastrar")]
         public async Task<IActionResult> SendProductRegistration(ProductDTO productDTO)
         {
-            await _productService.RegisterProduct(productDTO);
+            var registerProduct = _productService.RegisterProduct(productDTO);
+            var imgFolderPath = _imageService.GetImageFolderByCategory(productDTO.Category_Name);
+            var imageList = _imageService.GetImageDataListFromArray(productDTO.Images);
 
-            FileManagement.SaveImage(productDTO.Image_Base64, productDTO.Image_Path, $"products\\category\\{productDTO.Category_Name.ToLower()}");
+            Product product = await registerProduct;
+
+            foreach (var image in imageList)
+            {
+                var addProductImage = _productService.AddProductImage(new ProductImage()
+                {
+                    Product = product,
+                    Path = Path.Combine(imgFolderPath, image.Name),
+                    Main = image.Main
+                });
+
+                FileManagement.SaveImage(image.Base64, image.Name, imgFolderPath);
+                await addProductImage;
+            }
 
             return RedirectToAction("ProductRegistration");
         }
@@ -69,6 +89,9 @@ namespace HeavensHall.Commerce.Web.Controllers
 
             var productModel = _mapper.Map<ProductModel>(productDetails);
             productModel.Stock = _mapper.Map<StockModel>(stock);
+
+            var productImages = await _productService.GetAllImagesFromProduct(id);
+            productModel.Images = _mapper.Map(productImages, new List<ProductImageModel>());
 
             return View("ProductDetails", productModel);
         }

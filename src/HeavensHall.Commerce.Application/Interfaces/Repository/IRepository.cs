@@ -10,7 +10,5 @@ namespace HeavensHall.Commerce.Application.Interfaces.Repository
         Task Remove(T entity);
         Task<T> GetById(int id);
         Task<List<T>> GetAll();
-        void SetModified(T entity);
-        void SetRemoved(T entity);
     }
 }

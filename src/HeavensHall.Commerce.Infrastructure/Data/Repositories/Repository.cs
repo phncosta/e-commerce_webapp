@@ -44,16 +44,6 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
             await _Context.SaveChangesAsync();
         }
 
-        public virtual void SetModified(T entity)
-        {
-            _Context.Entry(entity).State = EntityState.Modified;
-        }
-
-        public virtual void SetRemoved(T entity)
-        {
-            _Context.Entry(entity).State = EntityState.Deleted;
-        }
-
         public void Dispose()
         {
             _Context?.Dispose();

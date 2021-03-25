@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace HeavensHall.Commerce.Web.Models
 {
@@ -10,6 +11,9 @@ namespace HeavensHall.Commerce.Web.Models
         [Display(Name = "Descrição")]
         public string Description { get; set; }
 
+        [Display(Name = "Preço")]
+        public decimal Price { get; set; }
+
         [Display(Name = "Cor do produto")]
         public string Color { get; set; }
 
@@ -19,11 +23,9 @@ namespace HeavensHall.Commerce.Web.Models
         [Display(Name = "Status")]
         public bool Is_Active { get; set; }
 
-        [Display(Name = "Fotos")]
-        public string Image_Path { get; set; }
-
         public BrandModel Brand { get; set; }
         public CategoryModel Category { get; set; }
         public StockModel Stock { get; set; }
+        public List<ProductImageModel> Images { get; set; }
     }
 }

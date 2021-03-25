@@ -9,6 +9,6 @@ namespace HeavensHall.Commerce.Application.Interfaces.Repository
         Task<ProductDetail> GetProductRelationship(int productId);
         Task<ProductDetail> GetByProductId(int productId);
         Task<List<ProductDetail>> GetAllRelationships();
-        Task<List<ProductDetail>> GetAllActiveProductRelationshipByPage(int startIndex, int maxRows);
+        Task<List<ProductDetail>> GetAllActiveProductRelationshipByIndex(int startIndex, int maxRows);
     }
 }

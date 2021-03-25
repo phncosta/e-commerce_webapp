@@ -12,6 +12,12 @@ namespace HeavensHall.Commerce.Domain.Entities
         [Column("description")]
         public string Description { get; set; }
 
+        [Column("price")]
+        public decimal Price { get; set; }
+
+        [Column("is_active")]
+        public bool Is_Active { get; set; }
+
         [ForeignKey("brand_id")]
         public Brand Brand { get; set; }
 

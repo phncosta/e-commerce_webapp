@@ -1,9 +1,10 @@
-﻿
-<div class="container pt-3" style="min-height: 67vh !important;">
+﻿@using HeavensHall.Commerce.Domain.Enums;
+
+<div class="container page-container">
 
     <h5 class="text-center">Registrar Novo Produto</h5>
 
-    <form method="POST" asp-controller="produtos" asp-action="cadastrar">
+    <form method="POST" asp-controller="produtos" asp-action="cadastrar" id="form-product-registration">
         <div class="form-group row">
             <label for="productName" class="col-sm-2 col-form-label">Nome do Produto</label>
             <div class="col-sm-10">
@@ -53,6 +54,15 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="rating" class="col-sm-2 col-form-label">Ativo</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="is_active" name="is_active" required>
+                    <option selected value="true">@Status.Ativar</option>
+                    <option value="false">@Status.Desativar</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="price" class="col-sm-2 col-form-label">Preço</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="price" name="price" required>
@@ -61,31 +71,29 @@
 
         <!-- File Management-->
         <div class="form-group row justify-content-center p-2">
-            <input class="attacher mb-3" type="file" id="attacher" style="display: none"
-                   onchange="attachFiles(this, 'images', productUniqueImage)">
-            <label for="attacher" class="mb-3 btn-outline-dark rounded-pill shadow-sm w-75 p-2 font-weight-bolder text-center"
-                   style="font-size: larger; cursor:pointer">
-                Anexar Imagem
+            <input class="attacher mb-3" type="file" id="attacher" style="display: none" multiple="multiple"
+                   onchange="attachFiles(this, 'images', multipleCardImages)">
+            <label for="attacher" class="mb-3 btn btn-primary w-25 p-1 font-weight-bolder text-center"
+                   style="font-size: medium;" role="button">
+                Adicionar Imagens
+                <i class="fas fa-images"></i>
             </label>
+            <input type="hidden" name="images[]" id="images" />
         </div>
 
         <!-- File List -->
-        <div class="text-center">
-            <ul class="list-group mb-3" id="list_files"></ul>
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="list_files"></div>
 
-            <input type="hidden" value="" name="image_path" id="filePath" />
-            <input type="hidden" value="" name="image_base64" id="fileResult" />
-        </div>
-
-        <div class="text-center">
-            <button type="button" onclick="window.location.href='/produtos/gerenciar'" class="btn btn-outline-dark">Cancelar</button>
-            <button type="submit" class="btn btn-primary p-2">Cadastrar</button>
+        <!-- Complete Form -->
+        <div class="text-center mt-5">
+            <button type="button" onclick="window.location.href='/produtos/gerenciar'" class="btn btn-outline-success btn-rounded">Cancelar</button>
+            <button type="submit" class="btn btn-success btn-rounded font-weight-bold">Cadastrar</button>
         </div>
     </form>
 
 </div>
 
-<!-- Template List File -->
+<!-- ****************************** TEMPLATES - Script usage ****************************** -->
 <template id="product_unique_template">
     <li class="list-group-item py-1 d-flex justify-content-between align-items-center">
         <a href="file.base64" download="file.name">file.name</a>
@@ -95,12 +103,48 @@
     </li>
 </template>
 
+<!-- Multiple Images Card List -->
+<template id="card-images-template">
+    <div class="col" id="col-img">
+        <div class="card h-100 wow fadeInDown">
+            <img src="file.base64" class="card-img-top" alt="Imagem anexada" id="attached-img" style="max-height: 350px; min-height: 350px;" />
+            <div class="card-body">
+                <div class="card-text">
+                    <div class="text-center" id="main-image-selection">
+                        <label class="card-title">file.name</label>
+                        <div class="form-check">
+                            <input type="radio" class="custom-control-input" name="main-image" id="imageId" onclick="selectAsMainImage(this.closest('#col-img'))" required>
+                            <label class="custom-control-label font-weight-bold" for="imageId">
+                                Tornar imagem principal
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="text-decoration-none text-danger text-center" role="button"
+                   onclick="deleteAndCleanFiles(this.closest('#col-img'), true)">
+                    Excluir
+                </a>
+            </div>
+        </div>
+    </div>
+</template>
+
 <style>
-    #footer {
-        bottom: 0;
-        position: fixed;
+    .main-container {
+        /* px value should be the height of the header + height of footer. */
+        min-height: calc(100vh - 240px) !important;
     }
 </style>
 
-<script src="/js/file_attach.js"></script>
-<script src="/js/show_attached_file.js"></script>
+<script src="/js/file_attach_engine.js"></script>
+<script src="/js/manage_attached_files.js"></script>
+<script>
+    window.addEventListener('submit', event => {
+        if (addImagesValuesToFormData() == false) {
+            event.preventDefault();
+            showBox('warning', 'Adicione uma imagem ao produto!');
+        }
+    });
+</script>

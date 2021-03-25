@@ -13,10 +13,9 @@ namespace HeavensHall.Commerce.Application.DTOs
         public float Rating { get; set; }
         public bool Is_Active { get; set; }
         public string Color { get; set; }
-        public string Image_Path { get; set; }
-        public string Image_Base64 { get; set; }
         public int Stock_Id { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        public string[] Images { get; set; }
     }
 }

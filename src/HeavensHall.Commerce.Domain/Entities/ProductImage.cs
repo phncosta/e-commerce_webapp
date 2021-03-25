@@ -3,11 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    [Table("stock")]
-    public class Stock : BaseEntity
+    [Table("product_images")]
+    public class ProductImage : BaseEntity
     {
-        [Column("quantity")]
-        public int Quantity { get; set; }
+        [Column("main")]
+        public bool Main { get; set; }
+
+        [Column("path")]
+        public string Path { get; set; }
 
         [ForeignKey("product_id")]
         public Product Product { get; set; }

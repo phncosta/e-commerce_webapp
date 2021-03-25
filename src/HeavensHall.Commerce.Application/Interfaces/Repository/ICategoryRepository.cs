@@ -1,11 +1,12 @@
 ﻿
 using HeavensHall.Commerce.Domain.Entities;
 using System;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Application.Interfaces.Repository
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Category GetByName(string categoryName);
+        Task<Category> GetByName(string categoryName);
     }
 }

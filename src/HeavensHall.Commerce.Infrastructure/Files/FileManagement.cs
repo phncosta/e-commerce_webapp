@@ -5,20 +5,21 @@ namespace HeavensHall.Commerce.Infrastructure.Files
 {
     public static class FileManagement
     {
+        const string _rootFolder = "wwwroot";
+
         public static void SaveImage(string base64str, string imageName, string destinationFolder)
         {
-            string _rootFolder = "wwwroot\\img";
-            string path = $"{Environment.CurrentDirectory}\\{_rootFolder}\\{destinationFolder}";
+            string directory = $"{_rootFolder}\\{destinationFolder}";
 
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(directory))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(directory);
             }
             
-            string imgPath = Path.Combine(path, imageName);
+            string path = Path.Combine(_rootFolder, destinationFolder, imageName);
             base64str = base64str.Split(";base64,")[1];
 
-            File.WriteAllBytes(imgPath, Convert.FromBase64String(base64str));
+            File.WriteAllBytes(path, Convert.FromBase64String(base64str));
         }
     }
 }

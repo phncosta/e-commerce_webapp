@@ -2,6 +2,8 @@
 using HeavensHall.Commerce.Infrastructure.Data.Context;
 using HeavensHall.Commerce.Application.Interfaces.Repository;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 {
@@ -11,9 +13,9 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
         {
         }
 
-        public Category GetByName(string categoryName)
+        public async Task<Category> GetByName(string categoryName)
         {
-            return _Context.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+            return await _Context.Categories.Where(c => c.Name == categoryName).FirstOrDefaultAsync();
         }
     }
 }

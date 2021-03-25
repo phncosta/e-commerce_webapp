@@ -1,27 +1,28 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace HeavensHall.Commerce.Application.Extensions.EnumExtensions
 {
     public static class EnumExtensions
     {
-        public static string GetDescription<T>(this T enumValue) where T : struct, IConvertible
+        public static string GetDescription(this Enum value)
         {
-            if (!typeof(T).IsEnum) return null;
-
-            var description = enumValue.ToString();
-            var fieldInfo = enumValue.GetType().GetField(enumValue.ToString());
-
-            if (fieldInfo != null)
+            Type type = value.GetType();
+            string name = Enum.GetName(type, value);
+            if (name != null)
             {
-                var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                if (attrs != null && attrs.Length > 0)
+                FieldInfo field = type.GetField(name);
+                if (field != null)
                 {
-                    description = ((DescriptionAttribute)attrs[0]).Description;
+                    if (Attribute.GetCustomAttribute(field,
+                             typeof(DescriptionAttribute)) is DescriptionAttribute attr)
+                    {
+                        return attr.Description;
+                    }
                 }
             }
-
-            return description;
+            return null;
         }
     }
 }

@@ -6,4 +6,17 @@ const show = field => field.style.display = 'block';
 const hide = field => field.style.display = 'none';
 const clean = field => field.value = '';
 
-const ROOT_FOLDER_PRODUCT_IMG = 'img\products\category';
+// Pop-up 
+function showBox(messageType, message) {
+    let boxClassType = {
+        'warning': 'warning-box',
+        'success': 'success-box'
+    }
+
+    let box = document.createElement('div');
+    box.innerHTML = message;
+    box.classList.add(boxClassType[messageType]);
+    document.body.appendChild(box);
+    box.addEventListener('click', () => { box.style.display = 'none' });
+    setTimeout(() => { box.remove() }, 6000);
+}

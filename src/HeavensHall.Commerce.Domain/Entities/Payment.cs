@@ -9,7 +9,7 @@ namespace HeavensHall.Commerce.Domain.Entities
         [Column("status")]
         public string Status { get; set; }
 
-        [Column("payment_type")]
-        public string Payment_Type { get; set; }
+        [Column("payment_method_id")]
+        public PaymentMethod Payment_Method_Id { get; set; }
     }
 }

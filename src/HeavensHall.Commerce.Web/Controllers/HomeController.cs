@@ -29,7 +29,7 @@ namespace HeavensHall.Commerce.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<ProductDetail> productsDetailed = await _productService.GetAllProductsFilteredByIndex(0, MAX_PRODUCT_SELECTION);
+            List<ProductDetail> productsDetailed = await _productService.GetAllProductsFilteredByIndex(0, MAX_PRODUCT_SELECTION + 1);
 
             return View("Index", await GetHomeProductModelList(productsDetailed));
         }
@@ -37,8 +37,8 @@ namespace HeavensHall.Commerce.Controllers
         [Route("pagina")]
         public async Task<IActionResult> Pagination(int num)
         {
-            int maxRowSearchIndex = num * MAX_PRODUCT_SELECTION;
-            int minRowSearchIndex = maxRowSearchIndex - MAX_PRODUCT_SELECTION;
+            int maxRowSearchIndex = num * (MAX_PRODUCT_SELECTION + 1);
+            int minRowSearchIndex = maxRowSearchIndex - (MAX_PRODUCT_SELECTION + 1);
 
             var productsDetailed = await _productService.GetAllProductsFilteredByIndex(minRowSearchIndex, maxRowSearchIndex);
 

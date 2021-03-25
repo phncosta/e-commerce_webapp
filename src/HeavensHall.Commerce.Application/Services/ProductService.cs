@@ -36,15 +36,24 @@ namespace HeavensHall.Commerce.Application.Services
         }
 
         public async Task<Product> GetProductData(int productId) => await _productRepository.GetRelantionship(productId);
+
         public async Task<List<Product>> GetProductsDataList() => await _productRepository.GetAll();
+
         public async Task<ProductDetail> GetProductWithDetails(int productId) => await _productDetailRepository.GetProductRelationship(productId);
+
         public async Task<Stock> GetStockFromProduct(int productId) => await _stockRepository.GetByProductId(productId);
+
         public async Task<List<ProductDetail>> GetAllProducstWithDetails() => await _productDetailRepository.GetAllRelationships();
+
         public async Task UpdateStock(Stock stock) => await _stockRepository.Update(stock);
+
         public async Task<List<ProductImage>> GetMainImageFromProduct(int productId) => await _productImageRepository.GetMainImageByProduct(productId);
+
         public async Task<List<ProductDetail>> GetAllProductsFilteredByIndex(int startIndex, int maxRows) =>
                                                                      await _productDetailRepository.GetAllActiveProductRelationshipByIndex(startIndex, maxRows);
+
         public async Task<List<ProductImage>> GetAllImagesFromProduct(int productId) => await _productImageRepository.GetAllFromProduct(productId);
+
         public async Task AddProductImage(ProductImage productImage) => await _productImageRepository.Add(productImage);
 
         public async Task<Product> RegisterProduct(ProductDTO productDto)

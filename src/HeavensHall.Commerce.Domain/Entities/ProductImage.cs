@@ -9,7 +9,7 @@ namespace HeavensHall.Commerce.Domain.Entities
         [Column("main")]
         public bool Main { get; set; }
 
-        [Column("path")]
+        [Column("path", TypeName = "varchar(255)")]
         public string Path { get; set; }
 
         [ForeignKey("product_id")]

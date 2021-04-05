@@ -1,15 +1,19 @@
 ﻿using HeavensHall.Commerce.Domain.Entities;
+using HeavensHall.Commerce.Domain.Enums;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+using HeavensHall.Commerce.Infrastructure.Identity;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            Database.Migrate();
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
         public DbSet<Address> Addresses { get; set; }
@@ -21,5 +25,16 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Context
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Category>().HasData(new Category[] {
+                new Category{ Id = 1, Name = InstrumentCategory.STRING.GetDescription() },
+                new Category{ Id = 2, Name = InstrumentCategory.PERCUSSION.GetDescription() },
+                new Category{ Id = 3, Name = InstrumentCategory.WIND.GetDescription() },
+            });
+        }
     }
 }

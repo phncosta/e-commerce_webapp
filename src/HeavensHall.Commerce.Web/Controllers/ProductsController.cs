@@ -3,7 +3,10 @@ using HeavensHall.Commerce.Application.DTOs;
 using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Files;
+using HeavensHall.Commerce.Infrastructure.Identity;
 using HeavensHall.Commerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
@@ -17,22 +20,27 @@ namespace HeavensHall.Commerce.Web.Controllers
         private readonly IProductService _productService;
         private readonly IImageService _imageService;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ProductsController(IProductService productService,
                                   IMapper mapper,
-                                  IImageService imageService)
+                                  IImageService imageService,
+                                  UserManager<ApplicationUser> userManager)
         {
             _productService = productService;
             _imageService = imageService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public IActionResult Index() => View();
 
+        [Authorize(Roles = "Admin")]
         [Route("cadastrar")]
         public IActionResult ProductRegistration() => View("ProductRegistration");
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("cadastrar")]
         public async Task<IActionResult> SendProductRegistration(ProductDTO productDTO)
         {
@@ -58,6 +66,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             return RedirectToAction("ProductRegistration");
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("alterar")]
         public async Task<IActionResult> ProductUpdate(int id)
         {
@@ -71,6 +80,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("alterar")]
         public async Task<IActionResult> SendProductUpdate(ProductModel productModel)
         {
@@ -96,6 +106,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("ProductDetails", productModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("gerenciar")]
         public async Task<IActionResult> ProductManagement()
         {

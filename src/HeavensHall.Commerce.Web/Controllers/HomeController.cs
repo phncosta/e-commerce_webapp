@@ -17,6 +17,7 @@ namespace HeavensHall.Commerce.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<HomeController> _logger;
         private const int MAX_PRODUCT_SELECTION = 8;
+        private const int PRODUCT_SELECTION_MAX_INDEX = MAX_PRODUCT_SELECTION + 1;
 
         public HomeController(IProductService productService,
                               IMapper mapper,
@@ -29,7 +30,7 @@ namespace HeavensHall.Commerce.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<ProductDetail> productsDetailed = await _productService.GetAllProductsFilteredByIndex(0, MAX_PRODUCT_SELECTION + 1);
+            List<ProductDetail> productsDetailed = await _productService.GetAllProductsFilteredByIndex(0, PRODUCT_SELECTION_MAX_INDEX);
 
             return View("Index", await GetHomeProductModelList(productsDetailed));
         }
@@ -37,8 +38,8 @@ namespace HeavensHall.Commerce.Controllers
         [Route("pagina")]
         public async Task<IActionResult> Pagination(int num)
         {
-            int maxRowSearchIndex = num * (MAX_PRODUCT_SELECTION + 1);
-            int minRowSearchIndex = maxRowSearchIndex - (MAX_PRODUCT_SELECTION + 1);
+            int maxRowSearchIndex = num * PRODUCT_SELECTION_MAX_INDEX;
+            int minRowSearchIndex = maxRowSearchIndex - PRODUCT_SELECTION_MAX_INDEX;
 
             var productsDetailed = await _productService.GetAllProductsFilteredByIndex(minRowSearchIndex, maxRowSearchIndex);
 

@@ -1,0 +1,74 @@
+﻿@model HeavensHall.Commerce.Web.Models.UserModel;
+
+@{ 
+    bool userSignInAfter = true;
+}
+
+<div class="container page-container">
+    <form method="POST" asp-controller="conta" asp-action="criar" asp-route-signIn="@userSignInAfter" id="register-form">
+        <!-- 2 column grid layout with text inputs for the first and last names -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="first-name" class="form-control" required />
+                    <label class="form-label">Nome</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="last-name" class="form-control" required />
+                    <label class="form-label">Sobrenome</label>
+                </div>
+            </div>
+
+            <input type="hidden" id="name" asp-for="Name" />
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" id="email" asp-for="Email" class="form-control" required />
+            <label class="form-label" asp-for="Email"></label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="password" asp-for="Password" class="form-control" required />
+            <label class="form-label" asp-for="Password"></label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="password" id="confirm-password" asp-for="ConfirmPassword" class="form-control" required />
+            <label class="form-label" asp-for="ConfirmPassword">Confirme a senha</label>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <!-- Role input -->
+        <div class="form-group mb-4">
+            <select class="custom-select form-control mb-3" asp-for="Role" required>
+                <option value="" selected>Perfil</option>
+                <option value="Admin">Administrador</option>
+                <option value="Stockist">Estoquista</option>
+            </select>
+            <span asp-validation-for="Role" class="text-danger"></span>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Cadastrar</button>
+
+        <div class="text text-danger" asp-validation-summary="All"></div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('register-form');
+    const userName = document.getElementById('name');
+
+    form.addEventListener('submit', event => {
+        let firstName = document.getElementById('first-name').value;
+        let lastName = document.getElementById('last-name').value;
+
+        userName.value = `${firstName} ${lastName}`;
+    });
+</script>

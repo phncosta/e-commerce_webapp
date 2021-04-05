@@ -4,6 +4,7 @@ using HeavensHall.Commerce.Infrastructure.Data.Context;
 using HeavensHall.Commerce.Web.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,11 +30,12 @@ namespace HeavensHall.Commerce
             services.AddDbContext<AppDbContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnectionString")));
 
-            services.AddAutoMapper(typeof(MapperProfile));
-
             services.AddInfrastructure();
 
             services.AddApplication();
+            // TODO: Cleanup Nuget Packages
+
+            services.AddAutoMapper(typeof(MapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,7 @@ namespace HeavensHall.Commerce
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

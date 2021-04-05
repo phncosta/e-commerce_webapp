@@ -6,10 +6,10 @@ namespace HeavensHall.Commerce.Domain.Entities
     [Table("product_details")]
     public class ProductDetail : BaseEntity
     {
-        [Column("color")]
+        [Column("color", TypeName = "varchar(50)")]
         public string Color { get; set; }
 
-        [Column("rating")]
+        [Column("rating", TypeName = "REAL")]
         public float Rating { get; set; }
 
         [ForeignKey("product_id")]

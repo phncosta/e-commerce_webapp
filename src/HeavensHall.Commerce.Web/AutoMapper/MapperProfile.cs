@@ -9,10 +9,16 @@ namespace HeavensHall.Commerce.Web.AutoMapper
     {
         public MapperProfile()
         {
+            CreateMap<UserModel, UserCredentials>()
+                      .ReverseMap();
+
             CreateMap<StockModel, Stock>()
                         .ReverseMap();
 
             CreateMap<ProductImage, ProductImageModel>()
+                        .ReverseMap();
+
+            CreateMap<UserCredentialsModel, UserCredentials>()
                         .ReverseMap();
 
             CreateMap<Stock, ProductDTO>()

@@ -3,10 +3,8 @@ using HeavensHall.Commerce.Application.DTOs;
 using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Files;
-using HeavensHall.Commerce.Infrastructure.Identity;
 using HeavensHall.Commerce.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
@@ -20,17 +18,14 @@ namespace HeavensHall.Commerce.Web.Controllers
         private readonly IProductService _productService;
         private readonly IImageService _imageService;
         private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
 
         public ProductsController(IProductService productService,
                                   IMapper mapper,
-                                  IImageService imageService,
-                                  UserManager<ApplicationUser> userManager)
+                                  IImageService imageService)
         {
             _productService = productService;
             _imageService = imageService;
             _mapper = mapper;
-            _userManager = userManager;
         }
 
         public IActionResult Index() => View();

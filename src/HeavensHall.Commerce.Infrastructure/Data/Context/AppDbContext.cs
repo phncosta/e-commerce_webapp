@@ -1,9 +1,9 @@
-﻿using HeavensHall.Commerce.Domain.Entities;
+﻿using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Domain.Enums;
+using HeavensHall.Commerce.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
-using HeavensHall.Commerce.Infrastructure.Identity;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Context
 {

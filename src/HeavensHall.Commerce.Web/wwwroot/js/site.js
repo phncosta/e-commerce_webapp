@@ -18,5 +18,5 @@ function showBox(messageType, message) {
     box.classList.add(boxClassType[messageType]);
     document.body.appendChild(box);
     box.addEventListener('click', () => { box.style.display = 'none' });
-    setTimeout(() => { box.remove() }, 6000);
+    setTimeout(() => { box.remove() }, 3000);
 }

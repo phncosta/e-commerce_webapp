@@ -14,7 +14,7 @@ namespace HeavensHall.Commerce.Web.Models
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "E-mail")]
-        [Required(ErrorMessage = "Este campo é obrigatório.")]
+        [Required(ErrorMessage = "Preencha o e-mail.")]
         [EmailAddress]
         public string Email { get; set; }
 

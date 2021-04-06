@@ -1,9 +1,9 @@
 ﻿using HeavensHall.Commerce.Application.Interfaces.Repository;
 using HeavensHall.Commerce.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 {

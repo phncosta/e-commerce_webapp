@@ -7,5 +7,7 @@ namespace HeavensHall.Commerce.Infrastructure.Identity
     {
         [Column(TypeName = "varchar(150)")]
         public string Name { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

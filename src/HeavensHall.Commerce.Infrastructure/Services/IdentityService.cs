@@ -33,7 +33,8 @@ namespace HeavensHall.Commerce.Infrastructure.Services
             {
                 UserName = userCredentials.Email,
                 Name = userCredentials.Name,
-                Email = userCredentials.Email
+                Email = userCredentials.Email,
+                IsActive = userCredentials.IsActive
             };
 
             var result = await _userManager.CreateAsync(identityUser, userCredentials.Password);

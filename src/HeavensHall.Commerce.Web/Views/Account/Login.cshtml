@@ -1,7 +1,7 @@
 ﻿@model HeavensHall.Commerce.Web.Models.UserCredentialsModel;
 
 <div class="container page-container">
-    <form method="POST" asp-controller="conta" asp-action="autenticar">
+    <form method="POST" asp-controller="conta" asp-action="autenticar" class="w-25 m-auto pt-5">
         <!-- Email input -->
         <div class="form-outline mb-4">
             <input type="email" id="email" asp-for="Email" class="form-control" required />
@@ -34,28 +34,13 @@
         </div>
 
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+        <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
 
-        <!-- Example of Registering buttons -->
         <div class="text-center">
-            <p>Not a member? <a href="#!">Register</a></p>
-            <p>or sign up with:</p>
-            <button type="button" class="btn btn-primary btn-floating mx-1">
-                <i class="fab fa-facebook-f"></i>
-            </button>
-
-            <button type="button" class="btn btn-primary btn-floating mx-1">
-                <i class="fab fa-google"></i>
-            </button>
-
-            <button type="button" class="btn btn-primary btn-floating mx-1">
-                <i class="fab fa-twitter"></i>
-            </button>
-
-            <button type="button" class="btn btn-primary btn-floating mx-1">
-                <i class="fab fa-github"></i>
-            </button>
+            <p>Não possui conta? 
+            <a href="/conta/novo-cliente">Cadastre-se</a></p>
         </div>
     </form>
 </div>
 
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }

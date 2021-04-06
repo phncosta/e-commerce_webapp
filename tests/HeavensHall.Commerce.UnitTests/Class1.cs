@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeavensHall.Commerce.UnitTests
+﻿namespace HeavensHall.Commerce.UnitTests
 {
     public class Class1
     {

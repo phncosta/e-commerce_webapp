@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace HeavensHall.Commerce.Web.Models
+﻿namespace HeavensHall.Commerce.Web.Models
 {
     public class BaseModel
     {

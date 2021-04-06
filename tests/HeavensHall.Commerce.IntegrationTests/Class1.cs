@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeavensHall.Commerce.IntegrationTests
+﻿namespace HeavensHall.Commerce.IntegrationTests
 {
     public class Class1
     {

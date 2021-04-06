@@ -39,16 +39,26 @@
                             <a class="nav-link" href="#">Contato</a>
                         </li>
                     </ul>
-                    <i class="fas fa-shopping-cart">Carrinho</i>
+                    <div class="nav-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        <label class="p-1 text-dark">Carrinho</label>
+                    </div>
 
                     @if (User.Identity.IsAuthenticated)
                     {
                         <label>Olá, @User.Identity.Name</label>
+                        <form class="form-inline" asp-route-returnUrl="/conta/login" asp-action="logout" asp-controller="conta"
+                              method="post">
+                            <button type="submit" class="nav-link btn btn-link text-dark">Sair</button>
+                        </form>
                     }
-                    <form class="form-inline" asp-route-returnUrl="/conta/login" asp-action="logout" asp-controller="conta"
-                          method="post">
-                        <button type="submit" class="nav-link btn btn-link text-dark">Sair</button>
-                    </form>
+                    else
+                    {
+                        <button type="button" class="nav-link btn btn-link text-dark" onclick="window.location.href='/conta/login'">
+                            Entrar
+                        </button>
+                    }
+
                 </div>
             </div>
         </nav>

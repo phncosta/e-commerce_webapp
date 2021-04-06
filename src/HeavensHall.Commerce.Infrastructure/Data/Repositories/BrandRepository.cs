@@ -1,8 +1,8 @@
 ﻿using HeavensHall.Commerce.Application.Interfaces.Repository;
 using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Data.Context;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 {

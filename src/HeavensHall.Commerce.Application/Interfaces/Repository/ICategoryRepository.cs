@@ -1,6 +1,5 @@
 ﻿
 using HeavensHall.Commerce.Domain.Entities;
-using System;
 using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Application.Interfaces.Repository

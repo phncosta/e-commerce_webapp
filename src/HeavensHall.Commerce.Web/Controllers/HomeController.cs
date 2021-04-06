@@ -4,7 +4,6 @@ using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Models;
 using HeavensHall.Commerce.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -15,17 +14,14 @@ namespace HeavensHall.Commerce.Controllers
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
-        private readonly ILogger<HomeController> _logger;
         private const int MAX_PRODUCT_SELECTION = 8;
         private const int PRODUCT_SELECTION_MAX_INDEX = MAX_PRODUCT_SELECTION + 1;
 
         public HomeController(IProductService productService,
-                              IMapper mapper,
-                              ILogger<HomeController> logger)
+                              IMapper mapper)
         {
             _productService = productService;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -52,7 +48,7 @@ namespace HeavensHall.Commerce.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private async Task <List<ProductModel>> GetHomeProductModelList(List<ProductDetail> productDetailList)
+        private async Task<List<ProductModel>> GetHomeProductModelList(List<ProductDetail> productDetailList)
         {
             List<ProductModel> productModelList = _mapper.Map(productDetailList, new List<ProductModel>());
 

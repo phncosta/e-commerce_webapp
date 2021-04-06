@@ -1,5 +1,3 @@
-using System;
-
 namespace HeavensHall.Commerce.Models
 {
     public class ErrorViewModel

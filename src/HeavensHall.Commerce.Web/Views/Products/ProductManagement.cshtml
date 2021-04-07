@@ -1,7 +1,6 @@
 ﻿@using HeavensHall.Commerce.Domain.Enums;
 @model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>;
 
-
 @functions {
     private string GetProductStatus(bool statusActive) => statusActive ? Status.Desativar.ToString() : Status.Ativar.ToString();
 }
@@ -22,12 +21,21 @@
             @foreach (var product in Model)
             {
                 <tr>
-                    <td>@product.Name</td>
-                    <td>@product.Stock.Quantity</td>
-                    <td>@GetProductStatus(@product.Is_Active)</td>
-                    <td onclick="editProduct('@product.Id')" class="text-decoration-underline">Editar</td>
-                    <td>@GetProductStatus(product.Is_Active)</td>
-                    <td onclick="visualizeProduct('@product.Id')" class="text-decoration-underline text-blue">Visualizar produto</td>
+                    <td>
+                        @product.Name
+                    </td>
+                    <td>
+                        @product.Stock.Quantity
+                    </td>
+                    <td onclick="editProduct('@product.Id')" class="text-decoration-underline">
+                        Editar
+                    </td>
+                    <td a onclick="changeProductStatus('@product.Id', '@product.Is_Active')" id="@product.Id" style="cursor: pointer;">
+                        @GetProductStatus(@product.Is_Active)
+                    </td>
+                    <td onclick="visualizeProduct('@product.Id')" class="text-decoration-underline text-blue">
+                        Visualizar produto
+                    </td>
                 </tr>
             }
         </tbody>
@@ -80,11 +88,37 @@
 </div>
 
 <script>
-    const editProduct = id => {
-        window.location.href = `/produtos/alterar?id=${id}`;
-    }
+    const editProduct = id => window.location.href = `/produtos/alterar?id=${id}`;
+    const visualizeProduct = id => window.location.href = `/produtos/${id}`;
 
-    const visualizeProduct = id => {
-        window.location.href = `/produtos/${id}`;
+    const changeProductStatus = (id, status) => {
+        var statusElement = document.getElementById(id);
+
+        let newStatus = status === 'False' || status === false;
+
+        const REQUEST_URL = `/produtos/status?id=${id}&status=${newStatus}`;
+
+        fetch(REQUEST_URL,
+            {
+                method: 'POST'
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    if (newStatus == true)
+                        statusElement.innerText = '@Status.Desativar.ToString()';
+                    else
+                        statusElement.innerText = '@Status.Ativar.ToString()';
+
+                    // Event Listener Reset/Attach.
+                    statusElement.removeAttribute('onclick');
+                    statusElement.addEventListener('click', function handler(e) {
+                        e.currentTarget.removeEventListener(e.type, handler);
+                        changeProductStatus(id, newStatus);
+                    });
+                }
+            })
+            .catch(function (error) {
+                showBox('warning', 'Não foi possível atualizar este status.');
+            });
     }
 </script>

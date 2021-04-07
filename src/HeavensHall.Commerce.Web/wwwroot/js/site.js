@@ -1,12 +1,11 @@
 ﻿
-// Base JS
-
+// Base Global Script Usage
 const homeRedirection = () => { window.location.href = '/' }
 const show = field => field.style.display = 'block';
 const hide = field => field.style.display = 'none';
 const clean = field => field.value = '';
 
-// Pop-up 
+// Pop-up Global Warning Message
 function showBox(messageType, message) {
     let boxClassType = {
         'warning': 'warning-box',

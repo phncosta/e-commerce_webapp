@@ -1,0 +1,117 @@
+﻿@model HeavensHall.Commerce.Web.Models.UserModel;
+@using HeavensHall.Commerce.Domain.Enums;
+
+@{
+    bool userSignIn = false;
+    bool userActive = true;
+
+    var firstName = Model.Name.Split(" ")[0];
+    var sequenceName = Model.Name.Split(" ")[1];
+}
+
+<div class="container page-container">
+    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+
+        @await Html.PartialAsync("Employee/_SidebarMenu")
+
+        <h4 class="text-center p-3">Alterar conta de funcionário</h4>
+
+        <form method="POST" asp-controller="conta" asp-action="atualizar" asp-route-accountType="funcionario" asp-route-signIn="@userSignIn" id="register-form">
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="email" asp-for="Email" value="@Model.Email" class="form-control" readonly />
+                <label class="form-label" asp-for="Email"></label>
+            </div>
+
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="first-name" class="form-control" value="@firstName" />
+                        <label class="form-label">Nome</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="last-name" class="form-control" value="@sequenceName" />
+                        <label class="form-label">Sobrenome</label>
+                    </div>
+                </div>
+
+                <!-- Custom Data Fields -->
+                <input type="hidden" id="name" asp-for="Name" />
+
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           value="@userActive"
+                           asp-for="IsActive"
+                           id="userActive" />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Usuário ativo
+                    </label>
+                </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="password" asp-for="Password" class="form-control" />
+                <label class="form-label" asp-for="Password"></label>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="password" id="confirm-password" asp-for="ConfirmPassword" class="form-control" />
+                <label class="form-label" asp-for="ConfirmPassword">Confirme a senha</label>
+            </div>
+
+            <!-- Role input -->
+            <div class="form-group mb-4">
+                <select class="custom-select form-control mb-3" id="role-select" asp-for="Role">
+                    <option value="@Model.Role" selected>@Model.Role</option>
+                    @if (Model.Role != UserRole.Admin.ToString())
+                    {
+                        <option value="UserRole.Admin.ToString()">Administrador</option>
+                    }
+                    @if (@Model.Role != @UserRole.Stockist.ToString())
+                    {
+                        <option value="@UserRole.Stockist.ToString()">Estoquista</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Atualizar conta</button>
+
+            <div class="text text-danger" asp-validation-summary="All"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts { @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>$.validator.setDefaults({ ignore: null });</script>
+        <script src="~/js/validators/validator.js"></script>
+
+        <script>
+            const form = document.getElementById('register-form');
+            const userName = document.getElementById('name');
+            var role = document.getElementById('role-select').value;
+
+            form.addEventListener('submit', event => {
+                let firstName = document.getElementById('first-name').value;
+                let lastName = document.getElementById('last-name').value;
+
+                if (firstName && lastName)
+                    userName.value = `${firstName} ${lastName}`;
+                else
+                    showBox('warning', 'Preencha o nome e sobrenome!');
+
+                if (new Validator(role).notFilled())
+                    showBox('warning', 'Preencha o perfil do usuário!');
+            });
+        </script>
+} }
+
+

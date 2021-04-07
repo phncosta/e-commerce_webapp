@@ -52,6 +52,8 @@ namespace HeavensHall.Commerce.Application.Services
         public async Task<List<ProductDetail>> GetAllProductsFilteredByIndex(int startIndex, int maxRows) =>
                                                                      await _productDetailRepository.GetAllActiveProductRelationshipByIndex(startIndex, maxRows);
 
+        public async Task<bool> ChangeProductStatus(int productId, bool statusActive) => await _productRepository.UpdateProductStatus(productId, statusActive);
+
         public async Task<List<ProductImage>> GetAllImagesFromProduct(int productId) => await _productImageRepository.GetAllFromProduct(productId);
 
         public async Task AddProductImage(ProductImage productImage) => await _productImageRepository.Add(productImage);

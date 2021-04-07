@@ -20,8 +20,4 @@
     <ProjectReference Include="..\HeavensHall.Commerce.Infrastructure\HeavensHall.Commerce.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Shared\Users\" />
-  </ItemGroup>
-
 </Project>

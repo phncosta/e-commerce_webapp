@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using HeavensHall.Commerce.Application.Common.Models;
 using HeavensHall.Commerce.Application.DTOs;
 using HeavensHall.Commerce.Domain.Entities;
+using HeavensHall.Commerce.Infrastructure.Identity;
 using HeavensHall.Commerce.Web.Models;
 
 namespace HeavensHall.Commerce.Web.AutoMapper
@@ -9,8 +11,10 @@ namespace HeavensHall.Commerce.Web.AutoMapper
     {
         public MapperProfile()
         {
+            CreateMap<ApplicationUser, UserDTO>();
+
             CreateMap<UserModel, UserCredentials>()
-                      .ReverseMap();
+                        .ReverseMap();
 
             CreateMap<StockModel, Stock>()
                         .ReverseMap();
@@ -52,6 +56,7 @@ namespace HeavensHall.Commerce.Web.AutoMapper
                         .ForPath(dest => dest.Brand.Id, src => src.MapFrom(p => p.Product.Brand.Id))
                         .ForPath(dest => dest.Brand.Name, src => src.MapFrom(p => p.Product.Brand.Name))
                         .ForPath(dest => dest.Category.Name, src => src.MapFrom(p => p.Product.Category.Name))
+                        .ForPath(dest => dest.Is_Active, src => src.MapFrom(p => p.Product.Is_Active))
                         .ForPath(dest => dest.Category.Id, src => src.MapFrom(p => p.Product.Category.Id));
 
             CreateMap<ProductDetail, ProductDTO>()

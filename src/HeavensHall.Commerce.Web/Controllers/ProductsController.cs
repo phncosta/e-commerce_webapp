@@ -31,12 +31,20 @@ namespace HeavensHall.Commerce.Web.Controllers
         public IActionResult Index() => View();
 
         [Authorize(Roles = "Admin")]
-        [Route("cadastrar")]
+        [HttpPost("status")]
+        public async Task<IActionResult> AlterProductStatus(int id, bool status)
+        {
+            await _productService.ChangeProductStatus(id, status);
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("cadastrar")]
         public IActionResult ProductRegistration() => View("ProductRegistration");
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
-        [Route("cadastrar")]
+        [HttpPost("cadastrar")]
         public async Task<IActionResult> SendProductRegistration(ProductDTO productDTO)
         {
             var registerProduct = _productService.RegisterProduct(productDTO);
@@ -62,8 +70,8 @@ namespace HeavensHall.Commerce.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("alterar")]
-        public async Task<IActionResult> ProductUpdate(int id)
+        [HttpGet("alterar")]
+        public async Task<IActionResult> ProductUpdatePage(int id)
         {
             var productDetail = await _productService.GetProductWithDetails(id);
             var stock = await _productService.GetStockFromProduct(id);
@@ -74,9 +82,8 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("ProductUpdate", productModel);
         }
 
-        [HttpPost]
         [Authorize(Roles = "Admin")]
-        [Route("alterar")]
+        [HttpPost("alterar")]
         public async Task<IActionResult> SendProductUpdate(ProductModel productModel)
         {
             var productDto = _mapper.Map<ProductDTO>(productModel);
@@ -86,9 +93,11 @@ namespace HeavensHall.Commerce.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> ProductDetail(int id)
         {
+            if (id == 0) return NotFound();
+
             var productDetails = await _productService.GetProductWithDetails(id);
             var stock = await _productService.GetStockFromProduct(id);
 
@@ -102,7 +111,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("gerenciar")]
+        [HttpGet("gerenciar")]
         public async Task<IActionResult> ProductManagement()
         {
             var productsDetailed = await _productService.GetAllProducstWithDetails();

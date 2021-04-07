@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HeavensHall.Commerce.Application.DTOs;
+using HeavensHall.Commerce.Application.Common.Models;
 using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Enums;
 using HeavensHall.Commerce.Web.Models;
@@ -20,7 +20,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             _mapper = mapper;
         }
 
-        [Route("login")]
+        [HttpGet("login")]
         public IActionResult LoginScreen() => View("Login");
 
         [HttpGet("novo-cliente")]
@@ -29,8 +29,13 @@ namespace HeavensHall.Commerce.Web.Controllers
         [HttpGet("novo-funcionario")]
         public IActionResult CreateEmployeeAccount() => View("EmployeeRegistration");
 
-        [HttpPost]
-        [Route("autenticar")]
+        [HttpGet("atualizar/{id}")]
+        public IActionResult UpdateAccountPage(string id)
+        {
+            return View("EmployeeUpdate");
+        }
+
+        [HttpPost("autenticar")]
         public async Task<IActionResult> Authenticate(UserCredentialsModel userCredentialsModel, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -47,8 +52,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("Login", ViewData["Error"] = "Usuário ou senha incorretos.");
         }
 
-        [HttpPost]
-        [Route("logout")]
+        [HttpPost("logout")]
         public async Task<IActionResult> SignOut(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -64,8 +68,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         }
 
 
-        [HttpPost]
-        [Route("criar")]
+        [HttpPost("criar")]
         public async Task<IActionResult> RegisterAccount(UserModel userModel, bool signIn = false)
         {
             if (ModelState.IsValid)
@@ -83,6 +86,27 @@ namespace HeavensHall.Commerce.Web.Controllers
                 {
                     ModelState.AddModelError("", error);
                 }
+            }
+
+            return BadRequest(ModelState);
+        }
+
+
+        [HttpPost("atualizar")]
+        public async Task<IActionResult> UpdateAccount(UserModel userModel, bool signIn = false)
+        {
+            var user = _mapper.Map<UserCredentials>(userModel);
+
+            var updateAccount = await _identityService.UpdateUserAccount(user, signIn);
+
+            if (updateAccount.Succeeded)
+            {
+                return Ok();
+            }
+
+            foreach (var error in updateAccount.Errors)
+            {
+                ModelState.AddModelError("", error);
             }
 
             return BadRequest(ModelState);

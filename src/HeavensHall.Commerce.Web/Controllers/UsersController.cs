@@ -1,18 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using HeavensHall.Commerce.Application.Interfaces.Service;
+using HeavensHall.Commerce.Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace HeavensHall.Commerce.Web.Controllers
 {
+    [Route("usuarios")]
     public class UsersController : Controller
     {
-        public IActionResult Index()
+        private readonly IIdentityService _identityService;
+        private readonly IMapper _mapper;
+
+        public UsersController(IIdentityService identityService, IMapper mapper)
         {
-            return View();
+            _identityService = identityService;
+            _mapper = mapper;
         }
 
-        [Route("home")]
-        public IActionResult AdminHomePage()
+        public IActionResult UserListScreen()
         {
-            return View();
+            var users = _identityService.GetUserList();
+
+            return View("Users/UserManagement", _mapper.Map<List<UserModel>>(users));
         }
     }
 }

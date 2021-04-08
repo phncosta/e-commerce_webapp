@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HeavensHall.Commerce.Application.Common.Models;
+using HeavensHall.Commerce.Application.DTOs;
 using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Enums;
 using HeavensHall.Commerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -26,13 +28,33 @@ namespace HeavensHall.Commerce.Web.Controllers
         [HttpGet("novo-cliente")]
         public IActionResult CreateCustommerAccount() => View("CustomerRegistration");
 
-        [HttpGet("novo-funcionario")]
+        [HttpGet("novo-funcionario"), Authorize(Roles = "Admin")]
         public IActionResult CreateEmployeeAccount() => View("EmployeeRegistration");
 
-        [HttpGet("atualizar/{id}")]
-        public IActionResult UpdateAccountPage(string id)
+        [HttpGet("nao-autorizado")]
+        public IActionResult NotAuthorized() => View("NotAuthorized");
+
+        [HttpGet("alterar"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateAccountPageAsync(string id)
         {
-            return View("EmployeeUpdate");
+            UserDTO user = await _identityService.GetUserById(id);
+
+            var userModel = _mapper.Map<UserModel>(user);
+
+            return View("EmployeeUpdate", userModel);
+        }
+
+        [HttpPost("desativar"), Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeAccountStatus(string id, bool status)
+        {
+            var result = await _identityService.ChangeAccountStatus(id, status);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("autenticar")]
@@ -40,16 +62,24 @@ namespace HeavensHall.Commerce.Web.Controllers
         {
             returnUrl ??= Url.Content("~/");
 
-            var userCredentials = _mapper.Map<UserCredentials>(userCredentialsModel);
-
-            var login = await _identityService.Login(userCredentials);
-
-            if (login.Succeeded)
+            if (ModelState.IsValid)
             {
-                return LocalRedirect(returnUrl);
+                var userCredentials = _mapper.Map<UserCredentials>(userCredentialsModel);
+
+                var login = await _identityService.Login(userCredentials);
+
+                if (login.Succeeded)
+                {
+                    return LocalRedirect(returnUrl);
+                }
+
+                foreach (var error in login.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
             }
 
-            return View("Login", ViewData["Error"] = "Usuário ou senha incorretos.");
+            return BadRequest(ModelState);
         }
 
         [HttpPost("logout")]
@@ -67,10 +97,11 @@ namespace HeavensHall.Commerce.Web.Controllers
             return LocalRedirect(returnUrl);
         }
 
-
         [HttpPost("criar")]
-        public async Task<IActionResult> RegisterAccount(UserModel userModel, bool signIn = false)
+        public async Task<IActionResult> RegisterAccount(UserModel userModel, bool signIn = false, string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
+
             if (ModelState.IsValid)
             {
                 var user = _mapper.Map<UserCredentials>(userModel);
@@ -79,7 +110,7 @@ namespace HeavensHall.Commerce.Web.Controllers
 
                 if (createAccount.Succeeded)
                 {
-                    return RedirectUserByRole(user.Role);
+                    return LocalRedirect(returnUrl);
                 }
 
                 foreach (var error in createAccount.Errors)
@@ -91,8 +122,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             return BadRequest(ModelState);
         }
 
-
-        [HttpPost("atualizar")]
+        [HttpPost("atualizar"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAccount(UserModel userModel, bool signIn = false)
         {
             var user = _mapper.Map<UserCredentials>(userModel);
@@ -116,8 +146,8 @@ namespace HeavensHall.Commerce.Web.Controllers
         {
             return userRole switch
             {
-                nameof(UserRole.Admin) => RedirectToAction("gerenciar", "produtos"),
-                nameof(UserRole.Stockist) => RedirectToAction("gerenciar", "produtos"),
+                nameof(UserRole.Admin) => RedirectToAction("visualizar", "produtos"),
+                nameof(UserRole.Stockist) => RedirectToAction("visualizar", "produtos"),
                 _ => RedirectToAction("Index", "Home"),
             };
         }

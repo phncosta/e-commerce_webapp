@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce
 {
@@ -63,6 +64,11 @@ namespace HeavensHall.Commerce
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapFallback(context => {
+                    context.Response.Redirect("/erro/404");
+                    return Task.CompletedTask;
+                });
             });
         }
     }

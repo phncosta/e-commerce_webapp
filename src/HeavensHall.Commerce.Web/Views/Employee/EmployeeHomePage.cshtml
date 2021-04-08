@@ -1,4 +1,5 @@
-﻿
+﻿@using HeavensHall.Commerce.Domain.Enums; 
+
 <div class="container page-container">
     <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
 
@@ -47,24 +48,22 @@
                          aria-labelledby="v-tabs-home-tab">
 
                         <div class="list-group">
-                            <a href="conta/novo-funcionario" class="list-group-item list-group-item-action flex-column align-items-start active">
+                            <a href="usuarios" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Novo usuário</h6>
+                                    <h6 class="mb-1">Gerenciar usuários</h6>
                                 </div>
-                                <p class="mb-1">Descrição.</p>
+                                <p class="mb-1">Visualizar lista de usuários, desativar ou ativar a conta ou atualizar os dados.</p>
                             </a>
-                            <a href="conta/atualizar" class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Alterar usuário</h6>
-                                </div>
-                                <p class="mb-1">Descrição.</p>
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Atualizar produto</h6>
-                                </div>
-                                <p class="mb-1">Descrição.</p>
-                            </a>
+
+                            @if (User.IsInRole(UserRole.Admin.ToString()))
+                            {
+                                <a href="conta/novo-funcionario" class="list-group-item list-group-item-action flex-column align-items-start active">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">Novo usuário</h6>
+                                    </div>
+                                    <p class="mb-1">Criar uma nova conta de funcionário administrador ou estoquista.</p>
+                                </a>
+                            }
                         </div>
                     </div>
 
@@ -74,23 +73,17 @@
                          aria-labelledby="v-tabs-profile-tab">
 
                         <div class="list-group">
-                            <a href="produtos/gerenciar" class="list-group-item list-group-item-action flex-column align-items-start active">
+                            <a href="produtos/visualizar" class="list-group-item list-group-item-action flex-column align-items-start active">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-1">Gerenciar produtos</h6>
                                 </div>
-                                <p class="mb-1">Descrição.</p>
+                                <p class="mb-1">Visualizar lista de produtos, ativar ou desativar produto e atualizar os dados do produto.</p>
                             </a>
                             <a href="produtos/cadastrar" class="list-group-item list-group-item-action flex-column align-items-start">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-1">Novo produto</h6>
                                 </div>
-                                <p class="mb-1">Descrição.</p>
-                            </a>
-                            <a href="produtos/atualizar" class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Atualizar produto</h6>
-                                </div>
-                                <p class="mb-1">Descrição.</p>
+                                <p class="mb-1">Adicionar um novo produto à loja.</p>
                             </a>
                         </div>
                     </div>
@@ -102,9 +95,9 @@
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">Em breve</h6>
+                                    <h6 class="mb-1">A definir</h6>
                                 </div>
-                                <p class="mb-1">Descrição.</p>
+                                @*<p class="mb-1">Descrição.</p>*@
                             </a>
                         </div>
                     </div>

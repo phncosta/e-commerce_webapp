@@ -78,40 +78,22 @@ namespace HeavensHall.Commerce.Infrastructure.Services
             return result.ToApplicationResult();
         }
 
-        public async Task<Result> UpdateUserAccount(UserCredentials user, bool signIn)
-        {
-            var applicationUser = await _userManager.FindByNameAsync(user.Email);
-
-            var role = await _userManager.AddToRoleAsync(applicationUser, user.Role);
-            var changePassword = await _userManager.ChangePasswordAsync(applicationUser, applicationUser.PasswordHash, user.Password);
-
-            applicationUser.Name = user.Name;
-            applicationUser.IsActive = user.IsActive;
-
-            var update = await _userManager.UpdateAsync(applicationUser);
-
-            if (update.Succeeded && changePassword.Succeeded && role.Succeeded)
-            {
-                return Result.Success();
-            }
-
-            var errors = new List<string>();
-
-            foreach (var e in update.Errors)
-                errors.Add(e.Description);
-
-            foreach (var e in changePassword.Errors)
-                errors.Add(e.Description);
-
-            foreach (var e in role.Errors)
-                errors.Add(e.Description);
-
-            return Result.Failure(errors);
-        }
-
         public async Task<Result> Login(UserCredentials userCredentials)
         {
-            var login = await _signInManager.PasswordSignInAsync(userCredentials.Email, userCredentials.Password, userCredentials.RememberMe, lockoutOnFailure: false);
+            var user = await _userManager.FindByNameAsync(userCredentials.Email);
+
+            if (user is null || !user.IsActive)
+            {
+                var error = new List<string>
+                {
+                    "Conta desativada ou inexistente."
+                };
+
+                return Result.Failure(error);
+            }
+
+            var login = await _signInManager.PasswordSignInAsync(userCredentials.Email, userCredentials.Password,
+                                                                 userCredentials.RememberMe, lockoutOnFailure: false);
 
             return login.ToApplicationSignInResult();
         }
@@ -146,6 +128,77 @@ namespace HeavensHall.Commerce.Infrastructure.Services
             var result = await _userManager.DeleteAsync(user);
 
             return result.ToApplicationResult();
+        }
+
+        public async Task<Result> ChangeAccountStatus(string id, bool status)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            user.IsActive = status;
+
+            var changeStatus = await _userManager.UpdateAsync(user);
+
+            if (changeStatus.Succeeded)
+            {
+                return Result.Success();
+            }
+
+            var errors = new List<string>();
+
+            foreach (var error in changeStatus.Errors)
+            {
+                errors.Add(error.Description);
+            }
+
+            return Result.Failure(errors);
+        }
+
+        public async Task<UserDTO> GetUserById(string id)
+        {
+            var applicationUser = await _userManager.FindByIdAsync(id);
+
+            var user = new UserDTO()
+            {
+                Id = applicationUser.Id,
+                Name = applicationUser.Name,
+                Email = applicationUser.Email,
+                Role = _userManager.GetRolesAsync(applicationUser).Result[0],
+                IsActive = applicationUser.IsActive
+            };
+
+            return user;
+        }
+
+        public async Task<Result> UpdateUserAccount(UserCredentials user, bool signIn)
+        {
+            var applicationUser = await _userManager.FindByNameAsync(user.Email);
+
+            // To Fix: PW and Role Update
+            var role = await _userManager.AddToRoleAsync(applicationUser, user.Role);
+            var changePassword = await _userManager.ChangePasswordAsync(applicationUser, applicationUser.PasswordHash, user.Password);
+
+            applicationUser.Name = user.Name;
+            applicationUser.IsActive = user.IsActive;
+
+            var update = await _userManager.UpdateAsync(applicationUser);
+
+            if (update.Succeeded && changePassword.Succeeded && role.Succeeded)
+            {
+                return Result.Success();
+            }
+
+            var errors = new List<string>();
+
+            foreach (var e in update.Errors)
+                errors.Add(e.Description);
+
+            foreach (var e in changePassword.Errors)
+                errors.Add(e.Description);
+
+            foreach (var e in role.Errors)
+                errors.Add(e.Description);
+
+            return Result.Failure(errors);
         }
     }
 }

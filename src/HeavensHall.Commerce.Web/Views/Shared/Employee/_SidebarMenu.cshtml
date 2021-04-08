@@ -1,6 +1,17 @@
-﻿
+﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+
 <link href="@Url.Content("~/css/sidebar/main_sidebar_employee.css")" rel="stylesheet" type="text/css" />
 <link href="@Url.Content("~/css/sidebar/sidebar-themes.css")" rel="stylesheet" type="text/css" />
+
+@functions {
+    private string GetUserRoleName()
+    {
+        if (User.IsInRole(UserRole.Admin.ToString())) return UserRole.Admin.GetDescription();
+        if (User.IsInRole(UserRole.Stockist.ToString())) return UserRole.Stockist.GetDescription();
+        return UserRole.Customer.GetDescription();
+    }
+}
 
 @*
        -> Partial view rendered inside of the following div
@@ -22,7 +33,7 @@
                 <span class="user-name">
                     <strong>Nome</strong>
                 </span>
-                <span class="user-role">Administrador</span>
+                <span class="user-role">@GetUserRoleName()</span>
                 <span class="user-status">
                     <i class="fa fa-circle"></i>
                     <span>Online</span>
@@ -55,7 +66,9 @@
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
-                                <a onclick="window.location.href = '/gerenciar'">Central</a>
+                                <a onclick="window.location.href = '/gerenciar'" style="cursor: pointer">
+                                    Central
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -90,10 +103,14 @@
                     <div class="sidebar-submenu">
                         <ul>
                             <li>
-                                <a onclick="window.location.href = 'conta/novo-funcionario'">Criar nova conta</a>
+                                <a onclick="window.location.href = 'conta/novo-funcionario'" style="cursor: pointer">
+                                    Criar nova conta
+                                </a>
                             </li>
                             <li>
-                                <a onclick="window.location.href = 'conta/novo-funcionario'">Gerenciar usuários</a>
+                                <a onclick="window.location.href = '/usuarios'" style="cursor: pointer">
+                                    Gerenciar usuários
+                                </a>
                             </li>
                         </ul>
                     </div>

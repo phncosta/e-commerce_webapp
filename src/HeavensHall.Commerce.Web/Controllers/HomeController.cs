@@ -63,5 +63,8 @@ namespace HeavensHall.Commerce.Controllers
 
             return productModelList;
         }
+
+        [Route("erro/404")]
+        public IActionResult PageNotFound() => View("NotFound");
     }
 }

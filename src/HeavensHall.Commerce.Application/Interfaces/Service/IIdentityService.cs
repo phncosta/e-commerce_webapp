@@ -14,5 +14,7 @@ namespace HeavensHall.Commerce.Application.Interfaces.Service
         Task<Result> Login(UserCredentials userCredentials);
         Task SignOut();
         List<UserDTO> GetUserList();
+        Task<Result> ChangeAccountStatus(string id, bool status);
+        Task<UserDTO> GetUserById(string id);
     }
 }

@@ -29,6 +29,7 @@ namespace HeavensHall.Commerce.Infrastructure.Configurations
             services.AddScoped<IImageService, ImageService>();
 
             // Identity Configuration
+               
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -46,6 +47,12 @@ namespace HeavensHall.Commerce.Infrastructure.Configurations
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = true;
             });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/conta/login";
+                options.AccessDeniedPath = "/conta/nao-autorizado";
+            }); 
 
             return services;
         }

@@ -1,7 +1,7 @@
 ﻿@model HeavensHall.Commerce.Web.Models.UserModel;
 
 @{
-    bool userSignIn = true;
+    bool userSignIn = false;
     bool userActive = true;
 }
 
@@ -12,7 +12,7 @@
 
         <h4 class="text-center p-3">Criar conta de funcionário</h4>
 
-        <form method="POST" asp-controller="conta" asp-action="criar" asp-route-signIn="@userSignIn" id="register-form">
+        <form method="POST" asp-controller="conta" asp-action="criar" asp-route-signIn="@userSignIn" asp-route-returnUrl="/conta/novo-funcionario?status=sucesso" id="register-form">
             <!-- 2 column grid layout with text inputs for the first and last names -->
             <div class="row mb-4">
                 <div class="col">
@@ -76,20 +76,34 @@
         <script>
             const form = document.getElementById('register-form');
             const userName = document.getElementById('name');
-            var role = document.getElementById('role-select').value;
+            var role = document.getElementById('role-select');
 
-            form.addEventListener('submit', event => {
+            form.addEventListener('submit', evt => {
                 let firstName = document.getElementById('first-name').value;
                 let lastName = document.getElementById('last-name').value;
 
-                if (firstName && lastName)
+                if (firstName && lastName) {
                     userName.value = `${firstName} ${lastName}`;
-                else
+                }
+                else {
                     showBox('warning', 'Preencha o nome e sobrenome!');
+                    evt.preventDefault();
+                }
 
-                if (new Validator(role).notFilled())
+                let selectedRole = role.options[role.selectedIndex].value;
+
+                if (new Validator(selectedRole).notFilled()) {
                     showBox('warning', 'Preencha o perfil do usuário!');
+                    evt.preventDefault();
+                }
             });
+
+            // Form Return URL QueryString
+            let params = (new URL(document.location)).searchParams;
+            let successParam = params.get("status");
+
+            if (successParam == "sucesso")
+                showBox('success', 'Usuário criado com sucesso.');
         </script>
 } }
 

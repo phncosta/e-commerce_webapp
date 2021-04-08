@@ -30,8 +30,8 @@ namespace HeavensHall.Commerce.Web.Controllers
 
         public IActionResult Index() => View();
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("status")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> AlterProductStatus(int id, bool status)
         {
             await _productService.ChangeProductStatus(id, status);
@@ -39,12 +39,12 @@ namespace HeavensHall.Commerce.Web.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("cadastrar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public IActionResult ProductRegistration() => View("ProductRegistration");
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("cadastrar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> SendProductRegistration(ProductDTO productDTO)
         {
             var registerProduct = _productService.RegisterProduct(productDTO);
@@ -69,8 +69,8 @@ namespace HeavensHall.Commerce.Web.Controllers
             return RedirectToAction("ProductRegistration");
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpGet("alterar")]
+        [Authorize(Roles = "Admin, Stockis")]
         public async Task<IActionResult> ProductUpdatePage(int id)
         {
             var productDetail = await _productService.GetProductWithDetails(id);
@@ -82,8 +82,8 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("ProductUpdate", productModel);
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost("alterar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> SendProductUpdate(ProductModel productModel)
         {
             var productDto = _mapper.Map<ProductDTO>(productModel);
@@ -91,6 +91,23 @@ namespace HeavensHall.Commerce.Web.Controllers
             await _productService.UpdateProduct(productDto);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet("visualizar")]
+        [Authorize(Roles = "Admin, Stockist")]
+        public async Task<IActionResult> ProductManagement()
+        {
+            var productsDetailed = await _productService.GetAllProducstWithDetails();
+
+            var products = _mapper.Map(productsDetailed, new List<ProductModel>());
+
+            foreach (var product in products)
+            {
+                var stock = await _productService.GetStockFromProduct(product.Id);
+                product.Stock = _mapper.Map<StockModel>(stock);
+            }
+
+            return View("ProductManagement", products);
         }
 
         [HttpGet("{id}")]
@@ -108,23 +125,6 @@ namespace HeavensHall.Commerce.Web.Controllers
             productModel.Images = _mapper.Map(productImages, new List<ProductImageModel>());
 
             return View("ProductDetails", productModel);
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("gerenciar")]
-        public async Task<IActionResult> ProductManagement()
-        {
-            var productsDetailed = await _productService.GetAllProducstWithDetails();
-
-            var products = _mapper.Map(productsDetailed, new List<ProductModel>());
-
-            foreach (var product in products)
-            {
-                var stock = await _productService.GetStockFromProduct(product.Id);
-                product.Stock = _mapper.Map<StockModel>(stock);
-            }
-
-            return View("ProductManagement", products);
         }
     }
 }

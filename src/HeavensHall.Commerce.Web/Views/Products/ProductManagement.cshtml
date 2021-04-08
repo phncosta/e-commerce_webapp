@@ -1,11 +1,14 @@
 ﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions; 
 @model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>;
 
 @functions {
-    private string GetProductStatus(bool statusActive) => statusActive ? Status.Desativar.ToString() : Status.Ativar.ToString();
+    private string GetProductStatus(bool statusActive) => statusActive ? Status.Desativar.GetDescription() : Status.Ativar.GetDescription();
 }
 
-<div class="container">
+<div class="container page-container">
+
+    <h4 class="p-2 text-center">Gerenciar produtos</h4>
 
     <table class="table table-striped table-hover">
         <thead>
@@ -13,6 +16,7 @@
                 <th scope="col">Nome do Produto</th>
                 <th scope="col">Qtd. Estoque</th>
                 <th scope="col">Editar</th>
+                <th scope="col">Status do Produto</th>
                 <th scope="col">Inativar/Reativar</th>
                 <th scope="col">Visualizar</th>
             </tr>
@@ -20,23 +24,26 @@
         <tbody>
             @foreach (var product in Model)
             {
-                <tr>
-                    <td>
-                        @product.Name
-                    </td>
-                    <td>
-                        @product.Stock.Quantity
-                    </td>
-                    <td onclick="editProduct('@product.Id')" class="text-decoration-underline">
-                        Editar
-                    </td>
-                    <td a onclick="changeProductStatus('@product.Id', '@product.Is_Active')" id="@product.Id" style="cursor: pointer;">
-                        @GetProductStatus(@product.Is_Active)
-                    </td>
-                    <td onclick="visualizeProduct('@product.Id')" class="text-decoration-underline text-blue">
-                        Visualizar produto
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @product.Name
+                </td>
+                <td>
+                    @product.Stock.Quantity
+                </td>
+                <td onclick="editProduct('@product.Id')" class="text-decoration-underline" style="cursor: pointer;">
+                    Editar
+                </td>
+                <td id="@product.Id" style="cursor: pointer;">
+                    @GetProductStatus(@product.Is_Active)
+                </td>
+                <td onclick="changeProductStatus('@product.Id', '@product.Is_Active')" id="status-control" class="text-decoration-underline" style="cursor: pointer;">
+                    Alterar status
+                </td>
+                <td onclick="visualizeProduct('@product.Id')" class="text-decoration-underline text-blue" style="cursor: pointer;">
+                    Visualizar produto
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -91,12 +98,13 @@
     const editProduct = id => window.location.href = `/produtos/alterar?id=${id}`;
     const visualizeProduct = id => window.location.href = `/produtos/${id}`;
 
-    const changeProductStatus = (id, status) => {
+    const changeProductStatus = (id, currentStatus) => {
         var statusElement = document.getElementById(id);
+        var statusControl = document.getElementById('status-control');
 
-        let newStatus = status === 'False' || status === false;
+        let newStatusIsActive = currentStatus === 'False' || currentStatus === false;
 
-        const REQUEST_URL = `/produtos/status?id=${id}&status=${newStatus}`;
+        const REQUEST_URL = `/produtos/status?id=${id}&status=${newStatusIsActive}`;
 
         fetch(REQUEST_URL,
             {
@@ -104,17 +112,16 @@
             })
             .then(function (response) {
                 if (response.ok) {
-                    if (newStatus == true)
-                        statusElement.innerText = '@Status.Desativar.ToString()';
-                    else
-                        statusElement.innerText = '@Status.Ativar.ToString()';
+                    statusElement.innerText = newStatusIsActive ? '@Status.Desativar.GetDescription()' : '@Status.Ativar.GetDescription()';
 
                     // Event Listener Reset/Attach.
-                    statusElement.removeAttribute('onclick');
-                    statusElement.addEventListener('click', function handler(e) {
+                    statusControl.removeAttribute('onclick');
+                    statusControl.addEventListener('click', function handler(e) {
                         e.currentTarget.removeEventListener(e.type, handler);
-                        changeProductStatus(id, newStatus);
+                        changeProductStatus(id, newStatusIsActive);
                     });
+
+                    showBox('success', 'Status alterado.');
                 }
             })
             .catch(function (error) {

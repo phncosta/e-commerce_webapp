@@ -13,6 +13,9 @@ namespace HeavensHall.Commerce.Web.AutoMapper
         {
             CreateMap<ApplicationUser, UserDTO>();
 
+            CreateMap<UserDTO, UserModel>()
+                        .ReverseMap();
+
             CreateMap<UserModel, UserCredentials>()
                         .ReverseMap();
 

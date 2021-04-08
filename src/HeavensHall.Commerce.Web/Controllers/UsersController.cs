@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace HeavensHall.Commerce.Web.Controllers
 {
-    [Route("usuarios")]
+    [Route("usuarios"), Authorize(Roles = "Admin, Stockist")]
     public class UsersController : Controller
     {
         private readonly IIdentityService _identityService;

@@ -3,7 +3,7 @@
 @model IEnumerable<HeavensHall.Commerce.Web.Models.ProductModel>;
 
 @functions {
-    private string GetProductStatus(bool statusActive) => statusActive ? Status.Desativar.GetDescription() : Status.Ativar.GetDescription();
+    private string GetProductStatus(bool statusActive) => statusActive ? Status.Ativar.GetDescription() : Status.Desativar.GetDescription();
 }
 
 <div class="container page-container">
@@ -112,7 +112,7 @@
             })
             .then(function (response) {
                 if (response.ok) {
-                    statusElement.innerText = newStatusIsActive ? '@Status.Desativar.GetDescription()' : '@Status.Ativar.GetDescription()';
+                    statusElement.innerText = newStatusIsActive ? '@Status.Ativar.GetDescription()' : '@Status.Desativar.GetDescription()';
 
                     // Event Listener Reset/Attach.
                     statusControl.removeAttribute('onclick');

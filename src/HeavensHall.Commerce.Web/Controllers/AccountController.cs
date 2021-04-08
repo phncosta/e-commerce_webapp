@@ -28,7 +28,8 @@ namespace HeavensHall.Commerce.Web.Controllers
         [HttpGet("novo-cliente")]
         public IActionResult CreateCustommerAccount() => View("CustomerRegistration");
 
-        [HttpGet("novo-funcionario"), Authorize(Roles = "Admin")]
+        [HttpGet("novo-funcionario")]
+        //[Authorize(Roles = "Admin")
         public IActionResult CreateEmployeeAccount() => View("EmployeeRegistration");
 
         [HttpGet("nao-autorizado")]
@@ -60,8 +61,6 @@ namespace HeavensHall.Commerce.Web.Controllers
         [HttpPost("autenticar")]
         public async Task<IActionResult> Authenticate(UserCredentialsModel userCredentialsModel, string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 var userCredentials = _mapper.Map<UserCredentials>(userCredentialsModel);
@@ -70,7 +69,8 @@ namespace HeavensHall.Commerce.Web.Controllers
 
                 if (login.Succeeded)
                 {
-                    return LocalRedirect(returnUrl);
+                    string userRole = await _identityService.GetUserRole(userCredentials.Email);
+                    return returnUrl is null ? RedirectUserByRole(userRole) : LocalRedirect(returnUrl);
                 }
 
                 foreach (var error in login.Errors)
@@ -146,7 +146,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         {
             return userRole switch
             {
-                nameof(UserRole.Admin) => RedirectToAction("visualizar", "produtos"),
+                nameof(UserRole.Admin) => RedirectToAction("", "gerenciar"),
                 nameof(UserRole.Stockist) => RedirectToAction("visualizar", "produtos"),
                 _ => RedirectToAction("Index", "Home"),
             };

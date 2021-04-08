@@ -200,5 +200,11 @@ namespace HeavensHall.Commerce.Infrastructure.Services
 
             return Result.Failure(errors);
         }
+
+        public async Task<string> GetUserRole(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            return _userManager.GetRolesAsync(user).Result[0];
+        }
     }
 }

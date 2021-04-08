@@ -15,7 +15,7 @@ namespace HeavensHall.Commerce.Infrastructure.Files
             {
                 Directory.CreateDirectory(directory);
             }
-            
+
             string path = Path.Combine(_rootFolder, destinationFolder, imageName);
             base64str = base64str.Split(";base64,")[1];
 

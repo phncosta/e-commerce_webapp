@@ -6,7 +6,7 @@ namespace HeavensHall.Commerce.Domain.Entities
     [Table("payments")]
     public class Payment : BaseEntity
     {
-        [Column("status")]
+        [Column("status", TypeName = "varchar(80)")]
         public string Status { get; set; }
 
         [Column("payment_method_id")]

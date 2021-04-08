@@ -1,10 +1,10 @@
-﻿using HeavensHall.Commerce.Application.Interfaces.Service;
-using HeavensHall.Commerce.Application.Interfaces.Repository;
-using System.Threading.Tasks;
-using HeavensHall.Commerce.Domain.Entities;
+﻿using AutoMapper;
 using HeavensHall.Commerce.Application.DTOs;
-using AutoMapper;
+using HeavensHall.Commerce.Application.Interfaces.Repository;
+using HeavensHall.Commerce.Application.Interfaces.Service;
+using HeavensHall.Commerce.Domain.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Application.Services
 {
@@ -51,6 +51,8 @@ namespace HeavensHall.Commerce.Application.Services
 
         public async Task<List<ProductDetail>> GetAllProductsFilteredByIndex(int startIndex, int maxRows) =>
                                                                      await _productDetailRepository.GetAllActiveProductRelationshipByIndex(startIndex, maxRows);
+
+        public async Task<bool> ChangeProductStatus(int productId, bool statusActive) => await _productRepository.UpdateProductStatus(productId, statusActive);
 
         public async Task<List<ProductImage>> GetAllImagesFromProduct(int productId) => await _productImageRepository.GetAllFromProduct(productId);
 

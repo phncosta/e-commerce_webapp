@@ -27,14 +27,14 @@ namespace HeavensHall.Commerce.Infrastructure.Services
 
         public List<ImageDTO> GetImageDataListFromArray(string[] imagesDTO)
         {
-            var imageDTO = new List<ImageDTO>();
+            var imagesData = new List<ImageDTO>();
 
             foreach (var image in imagesDTO)
             {
-                imageDTO = JsonSerializer.Deserialize<List<ImageDTO>>(image);
+                imagesData = JsonSerializer.Deserialize<List<ImageDTO>>(image);
             }
 
-            return imageDTO;
+            return imagesData;
         }
     }
 }

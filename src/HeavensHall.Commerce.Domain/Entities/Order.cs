@@ -1,5 +1,6 @@
 ﻿using HeavensHall.Commerce.Domain.Common;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
@@ -13,7 +14,7 @@ namespace HeavensHall.Commerce.Domain.Entities
         [Column("discount")]
         public decimal Discount { get; set; }
 
-        [Column("status")]
+        [Column("status", TypeName = "varchar(30)")]
         public string Status { get; set; }
 
         [Column("creation_date")]
@@ -25,7 +26,8 @@ namespace HeavensHall.Commerce.Domain.Entities
         [ForeignKey("payment_id")]
         public Payment Payment { get; set; }
 
-        [ForeignKey("user_id")]
-        public User User { get; set; }
+        [Column("user_id")]
+        [MaxLength(128)]
+        public virtual int UserId { get; set; }
     }
 }

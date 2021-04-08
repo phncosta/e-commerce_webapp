@@ -1,0 +1,57 @@
+﻿@model HeavensHall.Commerce.Web.Models.UserCredentialsModel;
+
+<div class="container page-container">
+    <form method="POST" asp-controller="conta" asp-action="autenticar" class="w-25 m-auto pt-5" id="login">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" id="email" asp-for="Email" class="form-control" />
+            <label class="form-label" asp-for="Email"></label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="password" asp-for="Password" class="form-control" />
+            <label class="form-label" asp-for="Password"></label>
+            <input type="hidden" asp-for="ConfirmPassword" id="confirm-password" />
+        </div>
+
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <!-- Checkbox -->
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           asp-for="RememberMe"
+                           checked />
+                    <label class="form-check-label" asp-for="RememberMe"></label>
+                </div>
+            </div>
+            <div class="col">
+                <a href="#!">Esqueceu a senha?</a>
+            </div>
+        </div>
+
+        <div class="text text-danger" asp-validation-summary="All"></div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+
+        <div class="text-center">
+            <p>
+                Não possui conta?
+                <a href="/conta/novo-cliente">Cadastre-se</a>
+            </p>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="~/lib/jquery/jquery-3.6.0.min.js"></script>
+<script>
+    const form = document.getElementById('login');
+
+    form.addEventListener('submit', event => {
+        document.getElementById('confirm-password').value = document.getElementById('password').value;
+    });
+</script>
+@section Scripts { @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); } }

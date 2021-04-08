@@ -1,5 +1,4 @@
 ﻿using HeavensHall.Commerce.Domain.Common;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities

@@ -1,0 +1,110 @@
+﻿@model HeavensHall.Commerce.Web.Models.UserModel;
+
+@{
+    bool userSignIn = false;
+    bool userActive = true;
+}
+
+<div class="container page-container">
+    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+
+        @await Html.PartialAsync("Employee/_SidebarMenu")
+
+        <h4 class="text-center p-3">Criar conta de funcionário</h4>
+
+        <form method="POST" asp-controller="conta" asp-action="criar" asp-route-signIn="@userSignIn" asp-route-returnUrl="/conta/novo-funcionario?status=sucesso" id="register-form">
+            <!-- 2 column grid layout with text inputs for the first and last names -->
+            <div class="row mb-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="first-name" class="form-control" />
+                        <label class="form-label">Nome</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="last-name" class="form-control" />
+                        <label class="form-label">Sobrenome</label>
+                    </div>
+                </div>
+
+                <!-- Custom Data Fields -->
+                <input type="hidden" id="name" asp-for="Name" />
+                <input type="hidden" value="@userActive" asp-for="IsActive" />
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="email" id="email" asp-for="Email" class="form-control" />
+                <label class="form-label" asp-for="Email"></label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+                <input type="password" id="password" asp-for="Password" class="form-control" />
+                <label class="form-label" asp-for="Password"></label>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="password" id="confirm-password" asp-for="ConfirmPassword" class="form-control" />
+                <label class="form-label" asp-for="ConfirmPassword">Confirme a senha</label>
+            </div>
+
+            <!-- Role input -->
+            <div class="form-group mb-4">
+                <select class="custom-select form-control mb-3" id="role-select" asp-for="Role">
+                    <option value="" selected>Perfil</option>
+                    <option value="Admin">Administrador</option>
+                    <option value="Stockist">Estoquista</option>
+                </select>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Cadastrar</button>
+
+            <div class="text text-danger" asp-validation-summary="All"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts { @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>$.validator.setDefaults({ ignore: null });</script>
+        <script src="~/js/validators/validator.js"></script>
+
+        <script>
+            const form = document.getElementById('register-form');
+            const userName = document.getElementById('name');
+            var role = document.getElementById('role-select');
+
+            form.addEventListener('submit', evt => {
+                let firstName = document.getElementById('first-name').value;
+                let lastName = document.getElementById('last-name').value;
+
+                if (firstName && lastName) {
+                    userName.value = `${firstName} ${lastName}`;
+                }
+                else {
+                    showBox('warning', 'Preencha o nome e sobrenome!');
+                    evt.preventDefault();
+                }
+
+                let selectedRole = role.options[role.selectedIndex].value;
+
+                if (new Validator(selectedRole).notFilled()) {
+                    showBox('warning', 'Preencha o perfil do usuário!');
+                    evt.preventDefault();
+                }
+            });
+
+            // Form Return URL QueryString
+            let params = (new URL(document.location)).searchParams;
+            let successParam = params.get("status");
+
+            if (successParam == "sucesso")
+                showBox('success', 'Usuário criado com sucesso.');
+        </script>
+} }
+
+

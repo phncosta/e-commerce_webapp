@@ -4,6 +4,7 @@ using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Files;
 using HeavensHall.Commerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
@@ -29,11 +30,21 @@ namespace HeavensHall.Commerce.Web.Controllers
 
         public IActionResult Index() => View();
 
-        [Route("cadastrar")]
+        [HttpPost("status")]
+        [Authorize(Roles = "Admin, Stockist")]
+        public async Task<IActionResult> AlterProductStatus(int id, bool status)
+        {
+            await _productService.ChangeProductStatus(id, status);
+
+            return Ok();
+        }
+
+        [HttpGet("cadastrar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public IActionResult ProductRegistration() => View("ProductRegistration");
 
-        [HttpPost]
-        [Route("cadastrar")]
+        [HttpPost("cadastrar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> SendProductRegistration(ProductDTO productDTO)
         {
             var registerProduct = _productService.RegisterProduct(productDTO);
@@ -58,8 +69,9 @@ namespace HeavensHall.Commerce.Web.Controllers
             return RedirectToAction("ProductRegistration");
         }
 
-        [Route("alterar")]
-        public async Task<IActionResult> ProductUpdate(int id)
+        [HttpGet("alterar")]
+        [Authorize(Roles = "Admin, Stockis")]
+        public async Task<IActionResult> ProductUpdatePage(int id)
         {
             var productDetail = await _productService.GetProductWithDetails(id);
             var stock = await _productService.GetStockFromProduct(id);
@@ -70,8 +82,8 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("ProductUpdate", productModel);
         }
 
-        [HttpPost]
-        [Route("alterar")]
+        [HttpPost("alterar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> SendProductUpdate(ProductModel productModel)
         {
             var productDto = _mapper.Map<ProductDTO>(productModel);
@@ -81,22 +93,8 @@ namespace HeavensHall.Commerce.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Route("{id}")]
-        public async Task<IActionResult> ProductDetail(int id)
-        {
-            var productDetails = await _productService.GetProductWithDetails(id);
-            var stock = await _productService.GetStockFromProduct(id);
-
-            var productModel = _mapper.Map<ProductModel>(productDetails);
-            productModel.Stock = _mapper.Map<StockModel>(stock);
-
-            var productImages = await _productService.GetAllImagesFromProduct(id);
-            productModel.Images = _mapper.Map(productImages, new List<ProductImageModel>());
-
-            return View("ProductDetails", productModel);
-        }
-
-        [Route("gerenciar")]
+        [HttpGet("visualizar")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> ProductManagement()
         {
             var productsDetailed = await _productService.GetAllProducstWithDetails();
@@ -110,6 +108,23 @@ namespace HeavensHall.Commerce.Web.Controllers
             }
 
             return View("ProductManagement", products);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ProductDetail(int id)
+        {
+            if (id == 0) return NotFound();
+
+            var productDetails = await _productService.GetProductWithDetails(id);
+            var stock = await _productService.GetStockFromProduct(id);
+
+            var productModel = _mapper.Map<ProductModel>(productDetails);
+            productModel.Stock = _mapper.Map<StockModel>(stock);
+
+            var productImages = await _productService.GetAllImagesFromProduct(id);
+            productModel.Images = _mapper.Map(productImages, new List<ProductImageModel>());
+
+            return View("ProductDetails", productModel);
         }
     }
 }

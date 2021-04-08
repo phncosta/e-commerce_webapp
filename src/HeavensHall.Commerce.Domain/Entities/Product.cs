@@ -6,10 +6,10 @@ namespace HeavensHall.Commerce.Domain.Entities
     [Table("products")]
     public class Product : BaseEntity
     {
-        [Column("name")]
+        [Column("name", TypeName = "varchar(100)")]
         public string Name { get; set; }
 
-        [Column("description")]
+        [Column("description", TypeName = "TEXT")]
         public string Description { get; set; }
 
         [Column("price")]

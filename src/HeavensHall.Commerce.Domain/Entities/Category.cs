@@ -6,7 +6,7 @@ namespace HeavensHall.Commerce.Domain.Entities
     [Table("categories")]
     public class Category : BaseEntity
     {
-        [Column("name")]
+        [Column("name", TypeName = "varchar(80)")]
         public string Name { get; set; }
     }
 }

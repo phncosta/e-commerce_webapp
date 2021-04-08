@@ -1,9 +1,9 @@
-﻿using HeavensHall.Commerce.Domain.Entities;
+﻿using HeavensHall.Commerce.Application.Interfaces.Repository;
+using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Data.Context;
-using HeavensHall.Commerce.Application.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 {

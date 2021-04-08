@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce
 {
@@ -29,11 +30,12 @@ namespace HeavensHall.Commerce
             services.AddDbContext<AppDbContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("PostgreSQLConnectionString")));
 
-            services.AddAutoMapper(typeof(MapperProfile));
-
             services.AddInfrastructure();
 
             services.AddApplication();
+            // TODO: Cleanup Nuget Packages
+
+            services.AddAutoMapper(typeof(MapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +56,7 @@ namespace HeavensHall.Commerce
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -61,6 +64,11 @@ namespace HeavensHall.Commerce
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapFallback(context => {
+                    context.Response.Redirect("/erro/404");
+                    return Task.CompletedTask;
+                });
             });
         }
     }

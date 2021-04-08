@@ -1,10 +1,10 @@
-﻿using HeavensHall.Commerce.Domain.Entities;
+﻿using HeavensHall.Commerce.Application.Interfaces.Repository;
+using HeavensHall.Commerce.Domain.Entities;
 using HeavensHall.Commerce.Infrastructure.Data.Context;
-using HeavensHall.Commerce.Application.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
 {
@@ -24,6 +24,19 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
         {
             return await _Context.Products.Where(p => p.Id == id).Include(b => b.Brand).Include(c => c.Category)
                                                                                           .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateProductStatus(int productId, bool status)
+        {
+            var product = new Product() { Id = productId, Is_Active = status };
+
+            _Context.Products.Attach(product)
+                             .Property(p => p.Is_Active)
+                             .IsModified = true;
+
+            await _Context.SaveChangesAsync();
+
+            return status;
         }
     }
 }

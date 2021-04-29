@@ -4,10 +4,12 @@ using HeavensHall.Commerce.Application.Interfaces.Service;
 using HeavensHall.Commerce.Domain.Enums;
 using HeavensHall.Commerce.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Infrastructure.Services
@@ -17,12 +19,14 @@ namespace HeavensHall.Commerce.Infrastructure.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IHttpContextAccessor _accessor;
 
-        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
+        public IdentityService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor accessor)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _accessor = accessor;
         }
 
         public async Task SignOut() => await _signInManager.SignOutAsync();
@@ -62,7 +66,7 @@ namespace HeavensHall.Commerce.Infrastructure.Services
 
             if (result.Succeeded)
             {
-                var role = await CreateRole(userCredentials.Role);
+                var role = await CreateRole(GetRoleVerified(userCredentials.Role));
                 result = await _userManager.AddToRoleAsync(identityUser, role);
 
                 if (signIn)
@@ -205,6 +209,27 @@ namespace HeavensHall.Commerce.Infrastructure.Services
         {
             var user = await _userManager.FindByNameAsync(email);
             return _userManager.GetRolesAsync(user).Result[0];
+        }
+
+        public async Task<string> GetUserId(string email)
+        {
+            var user = await _userManager.FindByNameAsync(email);
+            return user?.Id;
+        }
+
+        private string GetRoleVerified(string userRole)
+        {
+            if (!GetUser().Identity.IsAuthenticated)
+            {
+                return UserRole.Customer.ToString();
+            }
+
+            return userRole;
+        }
+
+        protected ClaimsPrincipal GetUser()
+        {
+            return _accessor?.HttpContext?.User;
         }
     }
 }

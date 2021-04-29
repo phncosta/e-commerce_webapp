@@ -26,11 +26,11 @@ namespace HeavensHall.Commerce.Web.Controllers
         public IActionResult LoginScreen() => View("Login");
 
         [HttpGet("novo-cliente")]
-        public IActionResult CreateCustommerAccount() => View("CustomerRegistration");
+        public IActionResult CreateCustommerAccount() => View("CustomerAccountRegister");
 
         [HttpGet("novo-funcionario")]
         [Authorize(Roles = "Admin")]
-        public IActionResult CreateEmployeeAccount() => View("EmployeeRegistration");
+        public IActionResult CreateEmployeeAccount() => View("EmployeeAccountRegister");
 
         [HttpGet("nao-autorizado")]
         public IActionResult NotAuthorized() => View("NotAuthorized");
@@ -42,7 +42,7 @@ namespace HeavensHall.Commerce.Web.Controllers
 
             var userModel = _mapper.Map<UserModel>(user);
 
-            return View("EmployeeUpdate", userModel);
+            return View("EmployeeAccountUpdate", userModel);
         }
 
         [HttpPost("desativar"), Authorize(Roles = "Admin")]

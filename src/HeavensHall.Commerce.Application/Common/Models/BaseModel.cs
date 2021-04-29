@@ -1,4 +1,4 @@
-﻿namespace HeavensHall.Commerce.Web.Models
+﻿namespace HeavensHall.Commerce.Application.Common.Models
 {
     public class BaseModel
     {

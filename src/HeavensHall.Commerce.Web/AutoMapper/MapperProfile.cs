@@ -13,6 +13,23 @@ namespace HeavensHall.Commerce.Web.AutoMapper
         {
             CreateMap<ApplicationUser, UserDTO>();
 
+            CreateMap<Address, AddressModel>()
+               .ReverseMap()
+               .ForMember(dest => dest.Address_1, src => src.MapFrom(a => $"{a.Street} {a.Number}"))
+               .ForMember(dest => dest.Address_2, src => src.MapFrom(a => $"{a.District}"));
+
+            CreateMap<AddressModel, AddressDTO>()
+                .ForMember(dest => dest.Address_1, src => src.MapFrom(a => $"{a.Street} {a.Number}"))
+                .ForMember(dest => dest.Address_2, src => src.MapFrom(a => $"{a.District}"));
+
+            CreateMap<AddressDTO, AddressModel>();
+
+            CreateMap<AddressDTO, Address>()
+                        .ReverseMap();
+
+            CreateMap<CustomerModel, Customer>()
+                        .ReverseMap();
+
             CreateMap<UserDTO, UserModel>()
                         .ReverseMap();
 

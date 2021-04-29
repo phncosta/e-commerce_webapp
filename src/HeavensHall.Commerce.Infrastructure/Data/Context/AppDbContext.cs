@@ -15,6 +15,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Context
         }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Shipping> Shipping { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Payment> Payments { get; set; }

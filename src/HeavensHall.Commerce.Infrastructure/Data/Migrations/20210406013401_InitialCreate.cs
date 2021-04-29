@@ -108,7 +108,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "shippings",
+                name: "shipping",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -119,7 +119,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_shippings", x => x.id);
+                    table.PrimaryKey("PK_shipping", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -364,9 +364,9 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_orders_shippings_shipping_id",
+                        name: "FK_orders_shipping_shipping_id",
                         column: x => x.shipping_id,
-                        principalTable: "shippings",
+                        principalTable: "shipping",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -501,7 +501,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                 name: "payments");
 
             migrationBuilder.DropTable(
-                name: "shippings");
+                name: "shipping");
 
             migrationBuilder.DropTable(
                 name: "products");

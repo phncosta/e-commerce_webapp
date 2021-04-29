@@ -16,6 +16,7 @@ namespace HeavensHall.Commerce.Application.Interfaces.Service
         List<UserDTO> GetUserList();
         Task<Result> ChangeAccountStatus(string id, bool status);
         Task<UserDTO> GetUserById(string id);
+        Task<string> GetUserId(string email);
         Task<string> GetUserRole(string email);
     }
 }

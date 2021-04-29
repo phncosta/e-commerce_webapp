@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HeavensHall.Commerce.Domain.Entities
 {
-    [Table("shippings")]
+    [Table("shipping")]
     public class Shipping : BaseEntity
     {
         [Column("shipping_charge")]

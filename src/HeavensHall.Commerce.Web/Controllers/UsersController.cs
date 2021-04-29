@@ -7,7 +7,8 @@ using System.Collections.Generic;
 
 namespace HeavensHall.Commerce.Web.Controllers
 {
-    [Route("usuarios"), Authorize(Roles = "Admin, Stockist")]
+    [Route("usuarios")] 
+    [Authorize(Roles = "Admin, Stockist")]
     public class UsersController : Controller
     {
         private readonly IIdentityService _identityService;

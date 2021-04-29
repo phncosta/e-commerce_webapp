@@ -26,8 +26,7 @@ namespace HeavensHall.Commerce.Domain.Entities
         [ForeignKey("payment_id")]
         public Payment Payment { get; set; }
 
-        [Column("user_id")]
-        [MaxLength(128)]
-        public virtual int UserId { get; set; }
+        [ForeignKey("customer_id")]
+        public Customer Customer { get; set; }
     }
 }

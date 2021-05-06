@@ -76,6 +76,15 @@ namespace HeavensHall.Commerce.Web.Controllers
             return View("AddressUpdate");
         }
 
+        [HttpPost("excluir-endereco")]
+        public async Task<IActionResult> AddressUpdate(int id)
+        {
+            var address = await _customerService.GetAddressById(id);
+            await _customerService.DeleteAddress(address);
+
+            return Ok();
+        }
+
         [AllowAnonymous]
         [HttpPost("cadastrar")]
         public async Task<IActionResult> RegisterCustomer(CustomerModel customerModel, string returnUrl = null)

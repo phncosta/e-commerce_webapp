@@ -29,9 +29,6 @@
             {
                 <div class="text-center p-3">
                     <h5>Nenhum endereço cadastrado.</h5>
-                    <button class="btn btn-primary" onclick="redirectToAddressRegister('@Model.Id')">
-                        Cadastrar endereços
-                    </button>
                 </div>
             }
             else
@@ -45,12 +42,15 @@
                         <div class="list-group">
                             @foreach (var address in Model.Addresses)
                             {
-                                <a href="/cliente/atualizar-endereco?id=@address.Id" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1">@address.Address_1</h6>
-                                    </div>
-                                    <p class="mb-1">@address.Address_2</p>
-                                </a>
+                                <div class="list-group-item list-group-item-action flex-column align-items-start" id="@address.Id">
+                                    <a href="/cliente/atualizar-endereco?id=@address.Id" class="">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">@address.Address_1</h6>
+                                        </div>
+                                        <p class="mb-1">@address.Address_2</p>
+                                    </a>
+                                    <div class="float-right"><a onclick="deleteAddress('@address.Id')" class="text-danger">Excluir</a></div>
+                                </div>
                             }
                         </div>
                     </div>
@@ -70,6 +70,20 @@
     });
 
     const redirectToAddressRegister = id => window.location.href = `/cliente/cadastrar-endereco?id=${id}`;
+
+    const deleteAddress = id => {
+        fetch(`/cliente/excluir-endereco?id=${id}`,
+            {
+                method: 'POST'
+            })
+            .then(response => {
+                document.getElementById(id).remove();
+                showBox('success', 'Endereço excluído.');
+            })
+            .catch(err => {
+                console.log('Erro ao excluir endereço: ' + err.message);
+            });
+    }
 </script>
 
 

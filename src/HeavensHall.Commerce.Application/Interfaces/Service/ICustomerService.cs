@@ -13,6 +13,7 @@ namespace HeavensHall.Commerce.Application.Interfaces.Service
         Task AddCustomerAddress(AddressDTO addressDto);
         int GetCustomerIdFromUser(string userId);
         Task<Address> GetAddressById(int id);
+        Task DeleteAddress(Address address);
         Task UpdateCustomerAddress(AddressDTO addressDto);
     }
 }

@@ -46,5 +46,7 @@ namespace HeavensHall.Commerce.Application.Services
             //address = updatedAddress;
             await _addressRepository.Update(address);
         }
+
+        public Task DeleteAddress(Address address) => _addressRepository.Remove(address);
     }
 }

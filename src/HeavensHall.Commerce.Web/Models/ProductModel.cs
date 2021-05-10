@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using HeavensHall.Commerce.Application.Common.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace HeavensHall.Commerce.Web.Models

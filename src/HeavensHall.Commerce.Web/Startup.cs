@@ -33,7 +33,6 @@ namespace HeavensHall.Commerce
             services.AddInfrastructure();
 
             services.AddApplication();
-            // TODO: Cleanup Nuget Packages
 
             services.AddAutoMapper(typeof(MapperProfile));
         }

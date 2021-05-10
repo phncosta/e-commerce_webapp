@@ -1,5 +1,8 @@
 ﻿@model HeavensHall.Commerce.Web.Models.UserModel;
 
+@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+
 @{
     bool userSignIn = false;
     bool userActive = true;
@@ -54,8 +57,8 @@
             <div class="form-group mb-4">
                 <select class="custom-select form-control mb-3" id="role-select" asp-for="Role">
                     <option value="" selected>Perfil</option>
-                    <option value="Admin">Administrador</option>
-                    <option value="Stockist">Estoquista</option>
+                    <option value="@UserRole.Admin.ToString()">@UserRole.Admin.GetDescription()</option>
+                    <option value="@UserRole.Stockist.ToString()">@UserRole.Stockist.GetDescription()</option>
                 </select>
             </div>
 

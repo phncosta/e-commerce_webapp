@@ -16,7 +16,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Address", b =>
@@ -26,6 +26,10 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Address_1")
                         .HasColumnType("varchar(200)")
@@ -43,7 +47,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         .HasColumnType("varchar(60)")
                         .HasColumnName("country");
 
-                    b.Property<string>("Postal_Code")
+                    b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("varchar(60)")
                         .HasColumnName("postal_code");
@@ -52,12 +56,12 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("state");
 
-                    b.Property<string>("UserId")
-                        .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .HasColumnName("user_id");
+                    b.Property<int?>("customer_id")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("customer_id");
 
                     b.ToTable("addresses");
                 });
@@ -113,6 +117,41 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("CellphoneNumber")
+                        .HasColumnType("varchar(18)")
+                        .HasColumnName("cellphone_number");
+
+                    b.Property<string>("Cpf")
+                        .IsRequired()
+                        .HasColumnType("varchar(14)")
+                        .HasColumnName("cpf");
+
+                    b.Property<char>("Gender")
+                        .HasColumnType("character(1)")
+                        .HasColumnName("gender");
+
+                    b.Property<string>("TelephoneNumber")
+                        .HasColumnType("varchar(18)")
+                        .HasColumnName("telephone_number");
+
+                    b.Property<string>("UserId")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("customers");
+                });
+
             modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -137,10 +176,8 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("total_amout");
 
-                    b.Property<int>("UserId")
-                        .HasMaxLength(128)
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
+                    b.Property<int?>("customer_id")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("payment_id")
                         .HasColumnType("integer");
@@ -149,6 +186,8 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("customer_id");
 
                     b.HasIndex("payment_id");
 
@@ -309,7 +348,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("shippings");
+                    b.ToTable("shipping");
                 });
 
             modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Stock", b =>
@@ -534,8 +573,21 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Address", b =>
+                {
+                    b.HasOne("HeavensHall.Commerce.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("customer_id");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Order", b =>
                 {
+                    b.HasOne("HeavensHall.Commerce.Domain.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("customer_id");
+
                     b.HasOne("HeavensHall.Commerce.Domain.Entities.Payment", "Payment")
                         .WithMany()
                         .HasForeignKey("payment_id");
@@ -543,6 +595,8 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
                     b.HasOne("HeavensHall.Commerce.Domain.Entities.Shipping", "Shipping")
                         .WithMany()
                         .HasForeignKey("shipping_id");
+
+                    b.Navigation("Customer");
 
                     b.Navigation("Payment");
 

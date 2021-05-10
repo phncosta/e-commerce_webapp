@@ -9,6 +9,7 @@ namespace HeavensHall.Commerce.Application.Configurations
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICustomerService, CustomerService>();
 
             return services;
         }

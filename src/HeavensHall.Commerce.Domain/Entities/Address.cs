@@ -24,10 +24,12 @@ namespace HeavensHall.Commerce.Domain.Entities
 
         [Required]
         [Column("postal_code", TypeName = "varchar(60)")]
-        public string Postal_Code { get; set; }
+        public string PostalCode { get; set; }
 
-        [Column("user_id")]
-        [MaxLength(128)]
-        public virtual string UserId { get; set; }
+        [Column("is_active")]
+        public bool Active { get; set; }
+
+        [ForeignKey("customer_id")]
+        public Customer Customer { get; set; }
     }
 }

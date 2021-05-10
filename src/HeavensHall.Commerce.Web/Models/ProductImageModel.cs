@@ -1,4 +1,5 @@
-﻿
+﻿using HeavensHall.Commerce.Application.Common.Models;
+
 namespace HeavensHall.Commerce.Web.Models
 {
     public class ProductImageModel : BaseModel

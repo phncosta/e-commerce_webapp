@@ -70,7 +70,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         }
 
         [HttpGet("alterar")]
-        [Authorize(Roles = "Admin, Stockis")]
+        [Authorize(Roles = "Admin, Stockist")]
         public async Task<IActionResult> ProductUpdatePage(int id)
         {
             var productDetail = await _productService.GetProductWithDetails(id);

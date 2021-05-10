@@ -1,0 +1,126 @@
+﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+@model HeavensHall.Commerce.Web.Models.CustomerModel;
+
+@functions {
+    private string GetAddressStatusToChange(bool statusActive) => statusActive ? Status.Desativar.ToString() : Status.Ativar.ToString();
+}
+
+<link rel="stylesheet" href="~/css/sidebar/sidebar_customer.css" />
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Meus dados</div>
+        <div class="list-group list-group-flush">
+            <a href="/cliente" class="list-group-item list-group-item-action bg-light">Conta</a>
+            <a href="/cliente/enderecos" class="list-group-item list-group-item-action bg-light">Endereços</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Pedidos</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Carrinho</a>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="btn btn-outline-secondary" id="menu-toggle">Alternar menu</button>
+            <button class="btn btn-info ml-3" onclick="redirectToAddressRegister('@Model.Id')">Adicionar novo endereço</button>
+        </nav>
+
+        <div class="container-fluid">
+            <!-- Tab content -->
+            @if (Model.Addresses.Count == 0)
+            {
+                <div class="text-center p-3">
+                    <h5>Nenhum endereço cadastrado.</h5>
+                </div>
+            }
+            else
+            {
+                <div class="tab-content" id="v-tabs-tabContent">
+                    <div class="tab-pane fade show active"
+                         id="v-tabs-home"
+                         role="tabpanel"
+                         aria-labelledby="v-tabs-home-tab">
+
+                        <div class="list-group">
+                            @foreach (var address in Model.Addresses)
+                            {
+                                <div class="list-group-item list-group-item-action flex-column align-items-start" id="@address.Id">
+                                    <a href="/cliente/atualizar-endereco?id=@address.Id" class="text-dark">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h6 class="mb-1">@address.Address_1</h6>
+                                        </div>
+                                        <p class="mb-1">@address.Address_2</p>
+                                    </a>
+                                    <div class="float-right">
+                                        <a onclick="changeAddressStatus('@address.Id', '@address.Active')" class="text-info font-weight-bold" id="change-status" role="button"
+                                           style="cursor: pointer;">
+                                            @GetAddressStatusToChange(address.Active)
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Tab content -->
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/animations/customer_sidebar.js"></script>
+<script>
+    const redirectToAddressRegister = id => window.location.href = `/cliente/cadastrar-endereco?id=${id}`;
+
+    const deleteAddress = id => {
+        fetch(`/cliente/inativar-endereco?id=${id}`,
+            {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById(id).remove();
+                    showBox('success', 'Endereço desativado.');
+                }
+            })
+            .catch(err => {
+                console.log('Erro ao excluir endereço: ' + err.message);
+            });
+    }
+
+    const changeAddressStatus = (id, currentStatus) => {
+        var addressElement = document.getElementById(id);
+        var changeStatusAnchor = addressElement.querySelector('#change-status');
+
+        let newStatusIsActive = currentStatus === 'False' || currentStatus === false;
+
+        fetch(`/cliente/endereco/alterar-status?id=${id}&status=${newStatusIsActive}`,
+            {
+                method: 'POST'
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    changeStatusAnchor.innerText = newStatusIsActive ? '@Status.Desativar.ToString()' : '@Status.Ativar.ToString()';
+
+                    // Event Listener Reset/Attach.
+                    changeStatusAnchor.removeAttribute('onclick');
+                    changeStatusAnchor.addEventListener('click', function handler(e) {
+                        e.currentTarget.removeEventListener(e.type, handler);
+                        changeAddressStatus(id, newStatusIsActive);
+                    });
+
+                    showBox('success', 'Status alterado.');
+                }
+            })
+            .catch(function (error) {
+                showBox('warning', 'Não foi possível atualizar este status.');
+                console.log('Error at address status update: ' + error.message);
+            });
+    }
+</script>
+
+

@@ -16,7 +16,7 @@ namespace HeavensHall.Commerce.Web.Models
 
         [Display(Name = "E-mail")]
         [Required(ErrorMessage = "Preencha o e-mail.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Digite um e-mail válido.")]
         public override string Email { get; set; }
 
         [Display(Name = "Lembrar-me")]

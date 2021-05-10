@@ -1,0 +1,73 @@
+﻿@model HeavensHall.Commerce.Web.Models.CustomerModel;
+
+<link rel="stylesheet" href="~/css/sidebar/sidebar_customer.css" />
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Meus dados</div>
+        <div class="list-group list-group-flush">
+            <a href="/cliente" class="list-group-item list-group-item-action bg-light">Conta</a>
+            <a href="/cliente/enderecos" class="list-group-item list-group-item-action bg-light">Endereços</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Pedidos</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Carrinho</a>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="btn btn-outline-secondary" id="menu-toggle">Alternar menu</button>
+        </nav>
+
+        <div class="container-fluid">
+            <form asp-controller="cliente" asp-action="atualizar-endereco">
+                <input type="hidden" asp-for="Address.Id" id="address" />
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.Address_1"></label>
+                        <input type="text" class="form-control" asp-for="Address.Address_1">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.Address_2"></label>
+                        <input type="text" class="form-control" asp-for="Address.Address_2">
+                        <span asp-validation-for="Address.Address_2" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.State"></label>
+                        <input type="text" class="form-control" asp-for="Address.State" id="inputState">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.City"></label>
+                        <input type="text" class="form-control" asp-for="Address.City" id="inputCity">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="inputCountry" asp-for="Address.Country"></label>
+                        <input type="text" class="form-control" asp-for="Address.Country" id="inputCountry">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input type="text" class="form-control" asp-for="Address.PostalCode">
+                        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Atualizar endereço</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/animations/customer_sidebar.js"></script>
+<script>
+    /* QueryString */
+    let params = (new URL(document.location)).searchParams;
+    let customerId = params.get("id");
+
+    document.getElementById('address').value = customerId;
+</script>

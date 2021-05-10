@@ -1,4 +1,4 @@
-﻿
+﻿using HeavensHall.Commerce.Application.Common.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace HeavensHall.Commerce.Web.Models

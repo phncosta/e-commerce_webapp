@@ -17,6 +17,7 @@ namespace HeavensHall.Commerce.Infrastructure.Configurations
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
             services.AddScoped<IProductImageRepository, ProductImageRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -25,11 +26,12 @@ namespace HeavensHall.Commerce.Infrastructure.Configurations
             services.AddScoped<IShippingRepository, ShippingRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IStockRepository, StockRepository>();
-
             services.AddScoped<IImageService, ImageService>();
 
+            services.AddHttpContextAccessor();
+
             // Identity Configuration
-               
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -52,7 +54,7 @@ namespace HeavensHall.Commerce.Infrastructure.Configurations
             {
                 options.LoginPath = "/conta/login";
                 options.AccessDeniedPath = "/conta/nao-autorizado";
-            }); 
+            });
 
             return services;
         }

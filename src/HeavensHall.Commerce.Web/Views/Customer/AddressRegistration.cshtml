@@ -1,0 +1,113 @@
+﻿@model HeavensHall.Commerce.Web.Models.CustomerModel;
+
+<link rel="stylesheet" href="~/css/sidebar/sidebar_customer.css" />
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Meus dados</div>
+        <div class="list-group list-group-flush">
+            <a href="/cliente" class="list-group-item list-group-item-action bg-light">Conta</a>
+            <a href="/cliente/enderecos" class="list-group-item list-group-item-action bg-light">Endereços</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Pedidos</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Carrinho</a>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="btn btn-outline-secondary" id="menu-toggle">Alternar menu</button>
+        </nav>
+
+        <div class="container-fluid">
+            <form asp-controller="cliente" asp-action="cadastrar-endereco">
+                <input type="hidden" asp-for="Id" id="customer"/>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.PostalCode"></label>
+                        <input type="text" class="form-control" asp-for="Address.PostalCode" id="inputCep" onblur="getAddressByCep(this.value)">
+                        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Address.District"></label>
+                        <input type="text" class="form-control" asp-for="Address.District" id="inputDistrict">
+                        <span asp-validation-for="Address.District" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="Address.Number"></label>
+                        <input type="number" class="form-control" asp-for="Address.Number" id="inputNumber">
+                        <span asp-validation-for="Address.Number" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.Street"></label>
+                        <input type="text" class="form-control" asp-for="Address.Street" id="inputStreet">
+                        <span asp-validation-for="Address.Street" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.City"></label>
+                        <input type="text" class="form-control" asp-for="Address.City" id="inputCity">
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address.State"></label>
+                        <input type="text" class="form-control" asp-for="Address.State" id="inputState">
+                        <span asp-validation-for="Address.State" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputCountry" asp-for="Address.Country"></label>
+                        <input type="text" class="form-control" asp-for="Address.Country" id="inputCountry">
+                        <span asp-validation-for="Address.Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <input type="checkbox" class="form-check-input" asp-for="Address.Active" id="inputActive" checked>
+                        <label class="form-check-label" for="inputActive" asp-for="Address.Active"></label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/animations/customer_sidebar.js"></script>
+<script>
+    var cep = document.getElementById('inputCep');
+    var district = document.getElementById('inputDistrict');
+    var number = document.getElementById('inputNumber');
+    var street = document.getElementById('inputStreet');
+    var state = document.getElementById('inputState');
+    var country = document.getElementById('inputCountry');
+    var city = document.getElementById('inputCity');
+
+    const getAddressByCep = cep => {
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => {
+                response.json().then(data => {
+                    fillAddressFormFields(data);
+                });
+            })
+            .catch(err => {
+                console.log('Erro ao buscar o CEP: ' + err.message);
+            });
+    }
+
+    const fillAddressFormFields = json => {
+        district.value = json.bairro;
+        street.value = json.logradouro;
+        state.value = json.uf;
+        city.value = json.localidade;
+    }
+
+    /* QueryString */
+    let params = (new URL(document.location)).searchParams;
+    let customerId = params.get("id");
+
+    document.getElementById('customer').value = customerId;
+</script>

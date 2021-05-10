@@ -1,0 +1,114 @@
+﻿@model HeavensHall.Commerce.Web.Models.CustomerModel;
+
+@using HeavensHall.Commerce.Domain.Enums;
+
+@{
+    bool userSignIn = true;
+    bool isActive = true;
+}
+
+<div class="container">
+    <h4 class="text-center p-3">Criar conta</h4>
+
+    <form method="POST" asp-controller="cliente" asp-action="cadastrar" asp-route-signIn="@userSignIn" id="register-form">
+        <!-- 2 column grid layout with text inputs for the first and last names -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="first-name" class="form-control" />
+                    <label class="form-label">Nome</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="last-name" class="form-control" />
+                    <label class="form-label">Sobrenome</label>
+                </div>
+            </div>
+
+            <!-- Custom Data Fields -->
+            <input type="hidden" id="name" asp-for="User.Name" />
+            <input type="hidden" value="@isActive" asp-for="User.IsActive" />
+            <input type="hidden" value="@UserRole.Customer.ToString()" asp-for="User.Role" />
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="email" id="email" asp-for="User.Email" class="form-control" />
+            <label class="form-label" asp-for="User.Email"></label>
+        </div>
+
+        <!-- CPF input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="email" asp-for="Cpf" class="form-control" />
+            <label class="form-label" asp-for="Cpf"></label>
+        </div>
+
+        <!-- Gender input -->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="radioMale" asp-for="Gender" value="M" class="custom-control-input">
+            <label class="custom-control-label" for="radioMale">Masculino</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="radioFemale" asp-for="Gender" value="F" class="custom-control-input">
+            <label class="custom-control-label" for="radioFemale">Feminino</label>
+        </div>
+
+        <!-- Telephone numbers -->
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="telephone" class="form-control" asp-for="TelephoneNumber" />
+                    <label class="form-label" asp-for="TelephoneNumber"></label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <input type="text" id="cellphone" class="form-control" asp-for="CellphoneNumber" />
+                    <label class="form-label" asp-for="CellphoneNumber"></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="password" asp-for="User.Password" class="form-control" />
+            <label class="form-label" asp-for="User.Password"></label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="password" id="confirm-password" asp-for="User.ConfirmPassword" class="form-control" />
+            <label class="form-label" asp-for="User.ConfirmPassword">Confirme a senha</label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Cadastrar</button>
+
+        <div class="text text-danger" asp-validation-summary="All"></div>
+    </form>
+</div>
+
+@section Scripts { @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+        <script>$.validator.setDefaults({ ignore: null });</script>
+        <script src="~/js/validators/validator.js"></script>
+
+        <script>
+            const form = document.getElementById('register-form');
+            const userName = document.getElementById('name');
+
+            form.addEventListener('submit', evt => {
+                let firstName = document.getElementById('first-name').value;
+                let lastName = document.getElementById('last-name').value;
+
+                if (firstName && lastName) {
+                    userName.value = `${firstName} ${lastName}`;
+                }
+                else {
+                    showBox('warning', 'Preencha o nome e sobrenome!');
+                    evt.preventDefault();
+                }
+            });
+        </script>
+}}

@@ -11,5 +11,6 @@ namespace HeavensHall.Commerce.Application.DTOs
         public string State { get; set; }
         public string Country { get; set; }
         public string PostalCode { get; set; }
+        public bool Active { get; set; }
     }
 }

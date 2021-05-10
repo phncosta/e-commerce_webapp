@@ -1,4 +1,10 @@
-﻿@model HeavensHall.Commerce.Web.Models.CustomerModel;
+﻿@using HeavensHall.Commerce.Domain.Enums;
+@using HeavensHall.Commerce.Application.Extensions.EnumExtensions;
+@model HeavensHall.Commerce.Web.Models.CustomerModel;
+
+@functions {
+    private string GetAddressStatusToChange(bool statusActive) => statusActive ? Status.Desativar.ToString() : Status.Ativar.ToString();
+}
 
 <link rel="stylesheet" href="~/css/sidebar/sidebar_customer.css" />
 
@@ -43,13 +49,18 @@
                             @foreach (var address in Model.Addresses)
                             {
                                 <div class="list-group-item list-group-item-action flex-column align-items-start" id="@address.Id">
-                                    <a href="/cliente/atualizar-endereco?id=@address.Id" class="">
+                                    <a href="/cliente/atualizar-endereco?id=@address.Id" class="text-dark">
                                         <div class="d-flex w-100 justify-content-between">
                                             <h6 class="mb-1">@address.Address_1</h6>
                                         </div>
                                         <p class="mb-1">@address.Address_2</p>
                                     </a>
-                                    <div class="float-right"><a onclick="deleteAddress('@address.Id')" class="text-danger">Excluir</a></div>
+                                    <div class="float-right">
+                                        <a onclick="changeAddressStatus('@address.Id', '@address.Active')" class="text-info font-weight-bold" id="change-status" role="button"
+                                           style="cursor: pointer;">
+                                            @GetAddressStatusToChange(address.Active)
+                                        </a>
+                                    </div>
                                 </div>
                             }
                         </div>
@@ -59,29 +70,55 @@
             }
         </div>
     </div>
-
 </div>
 
-<!-- Menu Toggle Script -->
+<script src="~/js/animations/customer_sidebar.js"></script>
 <script>
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
     const redirectToAddressRegister = id => window.location.href = `/cliente/cadastrar-endereco?id=${id}`;
 
     const deleteAddress = id => {
-        fetch(`/cliente/excluir-endereco?id=${id}`,
+        fetch(`/cliente/inativar-endereco?id=${id}`,
             {
                 method: 'POST'
             })
             .then(response => {
-                document.getElementById(id).remove();
-                showBox('success', 'Endereço excluído.');
+                if (response.ok) {
+                    document.getElementById(id).remove();
+                    showBox('success', 'Endereço desativado.');
+                }
             })
             .catch(err => {
                 console.log('Erro ao excluir endereço: ' + err.message);
+            });
+    }
+
+    const changeAddressStatus = (id, currentStatus) => {
+        var addressElement = document.getElementById(id);
+        var changeStatusAnchor = addressElement.querySelector('#change-status');
+
+        let newStatusIsActive = currentStatus === 'False' || currentStatus === false;
+
+        fetch(`/cliente/endereco/alterar-status?id=${id}&status=${newStatusIsActive}`,
+            {
+                method: 'POST'
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    changeStatusAnchor.innerText = newStatusIsActive ? '@Status.Desativar.ToString()' : '@Status.Ativar.ToString()';
+
+                    // Event Listener Reset/Attach.
+                    changeStatusAnchor.removeAttribute('onclick');
+                    changeStatusAnchor.addEventListener('click', function handler(e) {
+                        e.currentTarget.removeEventListener(e.type, handler);
+                        changeAddressStatus(id, newStatusIsActive);
+                    });
+
+                    showBox('success', 'Status alterado.');
+                }
+            })
+            .catch(function (error) {
+                showBox('warning', 'Não foi possível atualizar este status.');
+                console.log('Error at address status update: ' + error.message);
             });
     }
 </script>

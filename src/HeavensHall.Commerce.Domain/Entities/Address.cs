@@ -26,6 +26,9 @@ namespace HeavensHall.Commerce.Domain.Entities
         [Column("postal_code", TypeName = "varchar(60)")]
         public string PostalCode { get; set; }
 
+        [Column("is_active")]
+        public bool Active { get; set; }
+
         [ForeignKey("customer_id")]
         public Customer Customer { get; set; }
     }

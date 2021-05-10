@@ -42,11 +42,9 @@ namespace HeavensHall.Commerce.Application.Services
         public async Task UpdateCustomerAddress(AddressDTO addressDto)
         {
             var address = _mapper.Map<Address>(addressDto);
-            //var address = await _addressRepository.GetById(updatedAddress.Id);
-            //address = updatedAddress;
             await _addressRepository.Update(address);
         }
 
-        public Task DeleteAddress(Address address) => _addressRepository.Remove(address);
+        public async Task UpdateAddressStatus(int addressId, bool status) => await _addressRepository.ChangeStatus(addressId, status);
     }
 }

@@ -1,130 +1,54 @@
-﻿
-<!-- In Progress -->
+﻿<!-- In Progress -->
 
-<h4 class="text-center pb-2">Carrinho <i class="fas fa-shopping-cart"></i></h4>
+<div class="container">
+    <h4 class="text-center pb-2">Carrinho <i class="fas fa-shopping-cart"></i></h4>
 
-<div class="card shadow-sm">
-    <div class="card-header">
-        <a href="detalhe_produto.html" text-decoration: none;" class="font-weight-bold">
-            Guitarra Peavey
-            Predator
-        </a>
-    </div>
-    <div class="card-body">
-        <img src="img/guitarra_predator.jpg" class="rounded img-product-checkout float-left"
-             alt="Foto do Produto">
-
-        <div class="d-flex justify-content-center">
-            Marca: Peavey
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <a href="detalhe_produto.html" text-decoration: none;" class="font-weight-bold">
+                Guitarra Peavey
+                Predator
+            </a>
         </div>
+        <div class="card-body">
+            <img src="img/guitarra_predator.jpg" class="rounded img-product-checkout float-left"
+                 alt="Foto do Produto">
 
-        <div class="d-flex justify-content-end">
-            <h6 class="p-1">R$ 1.700,00</h6>
-        </div>
-        <div class="d-flex justify-content-end">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"
-                    style="background: none; border: none;">
-                -
-            </button>
-            <input class="quantity-checkout" min="0" name="quantity" value="1" type="number"
-                   style="border: none;">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"
-                    style="background: none; border: none;">
-                +
-            </button>
-        </div>
+            <div class="d-flex justify-content-center">
+                Marca: Peavey
+            </div>
 
-        <div class="d-flex justify-content-end">
-            <a href="#" style="cursor: pointer;" class="text-danger">Remover</a>
-        </div>
-    </div>
-</div>
-<div class="p-2"></div>
-<div class="card shadow-sm">
-    <div class="card-header">
-        <a href="detalhe_produto.html" text-decoration: none;" class="font-weight-bold">
-            Guitarra Peavey
-            Predator
-        </a>
-    </div>
-    <div class="card-body">
-        <img src="img/guitarra_predator.jpg" class="rounded img-product-checkout float-left"
-             alt="Foto do Produto">
+            <div class="d-flex justify-content-end">
+                <h6 class="p-1">R$ 1.700,00</h6>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"
+                        style="background: none; border: none;">
+                    -
+                </button>
+                <input class="quantity-checkout" min="0" name="quantity" value="1" type="number"
+                       style="border: none;">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"
+                        style="background: none; border: none;">
+                    +
+                </button>
+            </div>
 
-        <div class="d-flex justify-content-center">
-            Marca: Peavey
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <h6 class="p-1">R$ 1.700,00</h6>
-        </div>
-        <div class="d-flex justify-content-end">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"
-                    style="background: none; border: none;">
-                -
-            </button>
-            <input class="quantity-checkout" min="0" name="quantity" value="1" type="number"
-                   style="border: none;">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"
-                    style="background: none; border: none;">
-                +
-            </button>
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <a href="#" style="cursor: pointer;" class="text-danger">Remover</a>
+            <div class="d-flex justify-content-end">
+                <a href="#" style="cursor: pointer;" class="text-danger">Remover</a>
+            </div>
         </div>
     </div>
-</div>
-<div class="p-2"></div>
-<div class="card shadow-sm">
-    <div class="card-header">
-        <a href="detalhe_produto.html" text-decoration: none;" class="font-weight-bold">
-            Guitarra Peavey
-            Predator
-        </a>
+    <div class="row align-items-baseline justify-content-center pb-2 pt-3">
+        <label for="inputFrete" class="mr-2">Calcular frete</label>
+        <input type="text" id="inputFrete" class="form-control form-control-sm" placeholder="CEP">
+        <button class="btn-sm btn-secondary ml-1">Ok</button>
     </div>
-    <div class="card-body">
-        <img src="img/guitarra_predator.jpg" class="rounded img-product-checkout float-left"
-             alt="Foto do Produto">
-
-        <div class="d-flex justify-content-center">
-            Marca: Peavey
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <h6 class="p-1">R$ 1.700,00</h6>
-        </div>
-        <div class="d-flex justify-content-end">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"
-                    style="background: none; border: none;">
-                -
-            </button>
-            <input class="quantity-checkout" min="0" name="quantity" value="1" type="number"
-                   style="border: none;">
-            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"
-                    style="background: none; border: none;">
-                +
-            </button>
-        </div>
-
-        <div class="d-flex justify-content-end">
-            <a href="#" style="cursor: pointer;" class="text-danger">Remover</a>
-        </div>
+    <div class="d-flex justify-content-end">
+        <strong>TOTAL: R$</strong>
     </div>
-</div>
-<div class="p-2"></div>
 
-
-<div class="row align-items-baseline justify-content-center pb-2">
-    <label for="inputFrete" class="mr-2">Calcular frete</label>
-    <input type="text" id="inputFrete" class="form-control form-control-sm" placeholder="CEP">
-    <button class="btn-sm btn-secondary ml-1">Ok</button>
-</div>
-<div class="d-flex justify-content-end">
-    <strong>TOTAL: R$</strong>
-</div>
-
-<div class="text-center p-lg-4 btn-go-checkout">
-    <button class="btn btn-lg btn-primary mb-3 mt-2 w-50">Continuar</button>
+    <div class="text-center p-lg-4 btn-go-checkout">
+        <button class="btn btn-lg btn-primary mb-3 mt-2 w-50">Continuar</button>
+    </div>
 </div>

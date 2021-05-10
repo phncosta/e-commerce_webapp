@@ -38,5 +38,8 @@ namespace HeavensHall.Commerce.Web.Models
 
         [Display(Name = "Bairro / Complemento")]
         public string Address_2 { get; set; }
+
+        [Display(Name = "Marcar como ativo")]
+        public bool Active { get; set; }
     }
 }

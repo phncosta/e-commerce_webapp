@@ -63,40 +63,8 @@
     </div>
 </div>
 
+<script src="~/js/animations/customer_sidebar.js"></script>
 <script>
-    //var cep = document.getElementById('inputCep');
-    //var district = document.getElementById('inputDistrict');
-    //var number = document.getElementById('inputNumber');
-    //var street = document.getElementById('inputStreet');
-    //var state = document.getElementById('inputState');
-    //var country = document.getElementById('inputCountry');
-    //var city = document.getElementById('inputCity');
-
-    //const getAddressByCep = cep => {
-    //    fetch(`https://viacep.com.br/ws/${cep}/json/`)
-    //        .then(response => {
-    //            response.json().then(data => {
-    //                fillAddressFormFields(data);
-    //            });
-    //        })
-    //        .catch(err => {
-    //            console.log('Erro ao buscar o CEP: ' + err.message);
-    //        });
-    //}
-
-    //const fillAddressFormFields = json => {
-    //    district.value = json.bairro;
-    //    street.value = json.logradouro;
-    //    state.value = json.uf;
-    //    city.value = json.localidade;
-    //}
-
-    /* Menu Toggle Script */
-    $("#menu-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
     /* QueryString */
     let params = (new URL(document.location)).searchParams;
     let customerId = params.get("id");

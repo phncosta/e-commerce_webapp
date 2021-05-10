@@ -7,6 +7,7 @@ using HeavensHall.Commerce.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HeavensHall.Commerce.Web.Controllers
@@ -37,7 +38,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             var customer = new CustomerModel()
             {
                 Id = customerId,
-                Addresses = _mapper.Map(addresses, new List<AddressModel>()),
+                Addresses = _mapper.Map(addresses.OrderBy(a => a.Active), new List<AddressModel>()),
             };
 
             return View("AddressManagement", customer);
@@ -53,7 +54,7 @@ namespace HeavensHall.Commerce.Web.Controllers
             addressDTO.CustomerId = customerModel.Id;
             await _customerService.AddCustomerAddress(addressDTO);
 
-            return View("AddressRegistration");
+            return RedirectToAction("AddressManagement");
         }
 
         [HttpGet("atualizar-endereco")]
@@ -71,16 +72,16 @@ namespace HeavensHall.Commerce.Web.Controllers
             addressDTO.Address_1 = customerModel.Address.Address_1;
             addressDTO.Address_2 = customerModel.Address.Address_2;
             addressDTO.CustomerId = customerModel.Id;
+
             await _customerService.UpdateCustomerAddress(addressDTO);
 
             return View("AddressUpdate");
         }
 
-        [HttpPost("excluir-endereco")]
-        public async Task<IActionResult> AddressUpdate(int id)
+        [HttpPost("endereco/alterar-status")]
+        public async Task<IActionResult> ChangeAddressStatus(int id, bool status)
         {
-            var address = await _customerService.GetAddressById(id);
-            await _customerService.DeleteAddress(address);
+            await _customerService.UpdateAddressStatus(id, status);
 
             return Ok();
         }

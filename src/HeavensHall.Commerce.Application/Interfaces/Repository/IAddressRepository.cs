@@ -9,5 +9,6 @@ namespace HeavensHall.Commerce.Application.Interfaces.Repository
     public interface IAddressRepository : IRepository<Address>
     {
         Task<List<Address>> GetAllByCustomerId(int customerId);
+        Task ChangeStatus(int addressId, bool status);
     }
 }

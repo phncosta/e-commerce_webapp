@@ -311,7 +311,7 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("shippings");
+                    b.ToTable("shipping");
                 });
 
             modelBuilder.Entity("HeavensHall.Commerce.Domain.Entities.Stock", b =>

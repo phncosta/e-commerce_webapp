@@ -29,7 +29,7 @@ namespace HeavensHall.Commerce.Web.Controllers
         public IActionResult CreateCustommerAccount() => View("CustomerAccountRegister");
 
         [HttpGet("novo-funcionario")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult CreateEmployeeAccount() => View("EmployeeAccountRegister");
 
         [HttpGet("nao-autorizado")]

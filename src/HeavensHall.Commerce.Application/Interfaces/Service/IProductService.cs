@@ -18,6 +18,7 @@ namespace HeavensHall.Commerce.Application.Interfaces.Service
         Task AddProductImage(ProductImage productImage);
         Task<List<ProductImage>> GetMainImageFromProduct(int id);
         Task<List<ProductImage>> GetAllImagesFromProduct(int productId);
+        Task<decimal> GetPrice(int productId);
         Task<bool> ChangeProductStatus(int productId, bool statusActive);
     }
 }

@@ -1,10 +1,9 @@
 ﻿@model HeavensHall.Commerce.Web.Models.ProductModel;
 
-<section class="mb-5 mt-4">
-    <div class="row">
-        <div class="col-md-6 mb-4 mb-md-0">
-
-            <div class="row product-gallery mx-1">
+<div class="container">
+    <section class="mb-5 mt-4">
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
 
                 <section id="carousel-banners fadeIn">
                     @{
@@ -20,15 +19,15 @@
                             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                         </ol>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="d-block w-100" src="@mainImage.Path"
+                            <div class="carousel-item active" style="z-index: 2;">
+                                <img class="d-block w-100" src="~/@mainImage.Path"
                                      alt="Foto do produto">
                             </div>
 
                             @foreach (var image in additionalImages)
                             {
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="@image.Path"
+                                    <img class="d-block w-100" src="~/@image.Path"
                                          alt="Foto do produto">
                                 </div>
                             }
@@ -46,96 +45,105 @@
                     </div>
                 </section>
             </div>
+
+            <div class="col-md-6">
+                <h5>@Model.Name</h5>
+                <p class="mb-2 text-muted text-uppercase small">@Model.Brand.Name</p>
+                <ul class="list-inline" style="list-style-type: none;">
+                    <li class="list-inline-item">
+                        <i class="fas fa-star fa-sm text-primary"></i>
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fas fa-star fa-sm text-primary"></i>
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fas fa-star fa-sm text-primary"></i>
+                    </li>
+                    <li class="list-inline-item">
+                        <i class="fas fa-star fa-sm text-primary"></i>
+                    </li>
+                    <li class="list-inline-item">
+                        <!-- far -->
+                        <i class="fas fa-star fa-sm text-primary"></i>
+                    </li>
+                </ul>
+                <p class="m-0">
+                    <section class="mr-1" id="price-section">
+                        <h4>R$ @Model.Price</h4>
+                    </section>
+                </p>
+                <p class="pt-1">
+                    @Model.Description
+                </p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Instrumento</strong></th>
+                                <td>@Model.Category.Name</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Cor</strong></th>
+                                <td>@Model.Color</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="table-responsive mb-2">
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="pl-0 pb-0 w-25">Quantidade</td>
+                            </tr>
+                            <tr>
+                                <td class="pl-0">
+                                    <div class="float-left">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                class="minus" style="background: none; border: none;">
+                                            -
+                                        </button>
+                                        <input class="quantity w-25" min="0" name="quantity" value="1" id="inputQuantity"
+                                               type="number">
+                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                class="plus" style="background: none; border: none;">
+                                            +
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row action-produto">
+                    <button type="button" class="btn btn-primary btn-md mr-2 mb-2"
+                            onclick="window.location.href = '/checkout'">
+                        Comprar
+                    </button>
+                    <button type="button" class="btn btn-light btn-md mb-2"
+                            onclick="addProductToCart('@Model.Id')">
+                        <i class="fas fa-shopping-cart pr-2"></i> Adicionar ao carrinho
+                    </button>
+                </div>
+
+                <hr>
+
+                <div class="row align-items-baseline mb-lg-5 p-2 justify-content-center">
+                    <label for="inputFrete" class="mr-2">Calcular frete</label>
+                    <input type="text" id="inputFrete" class="form-control form-control-sm"
+                           placeholder="CEP">
+                    <button class="btn-sm btn-secondary ml-1">Ok</button>
+                </div>
+            </div>
         </div>
+    </section>
+</div>
 
-        <div class="col-md-6">
-            <h5>@Model.Name</h5>
-            <p class="mb-2 text-muted text-uppercase small">@Model.Brand.Name</p>
-            <ul class="list-inline" style="list-style-type: none;">
-                <li class="list-inline-item">
-                    <i class="fas fa-star fa-sm text-primary"></i>
-                </li>
-                <li class="list-inline-item">
-                    <i class="fas fa-star fa-sm text-primary"></i>
-                </li>
-                <li class="list-inline-item">
-                    <i class="fas fa-star fa-sm text-primary"></i>
-                </li>
-                <li class="list-inline-item">
-                    <i class="fas fa-star fa-sm text-primary"></i>
-                </li>
-                <li class="list-inline-item">
-                    <!-- far -->
-                    <i class="fas fa-star fa-sm text-primary"></i>
-                </li>
-            </ul>
-            <p class="m-0">
-                <section class="mr-1" id="price-section">
-                    <h4>R$ @Model.Price</h4>
-                </section>
-            </p>
-            <p class="pt-1">
-                @Model.Description
-            </p>
-            <div class="table-responsive">
-                <table class="table table-sm table-borderless mb-0">
-                    <tbody>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Instrumento</strong></th>
-                            <td>@Model.Category.Name</td>
-                        </tr>
-                        <tr>
-                            <th class="pl-0 w-25" scope="row"><strong>Cor</strong></th>
-                            <td>@Model.Color</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <hr>
-            <div class="table-responsive mb-2">
-                <table class="table table-sm table-borderless">
-                    <tbody>
-                        <tr>
-                            <td class="pl-0 pb-0 w-25">Quantidade</td>
-                        </tr>
-                        <tr>
-                            <td class="pl-0">
-                                <div class="float-left">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                            class="minus" style="background: none; border: none;">
-                                        -
-                                    </button>
-                                    <input class="quantity w-25" min="0" name="quantity" value="1"
-                                           type="number">
-                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                            class="plus" style="background: none; border: none;">
-                                        +
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row action-produto">
-                <button type="button" class="btn btn-primary btn-md mr-2 mb-2"
-                        onclick="window.location.href='carrinho.html'">
-                    Comprar
-                </button>
-                <button type="button" class="btn btn-light btn-md mb-2"
-                        onclick="window.location.href='carrinho.html'">
-                    <i class="fas fa-shopping-cart pr-2"></i> Adicionar ao carrinho
-                </button>
-            </div>
+<script>
+    const addProductToCart = id => {
+        let productQuantity = document.getElementById('inputQuantity').value;
+        addToCart(id, productQuantity);
 
-            <hr>
-
-            <div class="row align-items-baseline mb-lg-5 p-2 justify-content-center">
-                <label for="inputFrete" class="mr-2">Calcular frete</label>
-                <input type="text" id="inputFrete" class="form-control form-control-sm"
-                       placeholder="CEP">
-                <button class="btn-sm btn-secondary ml-1">Ok</button>
-            </div>
-        </div>
-    </div>
-</section>
+        alert('Produto adicionado ao carrinho.');
+    }
+</script>

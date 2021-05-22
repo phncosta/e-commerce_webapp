@@ -20,6 +20,14 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Repositories
                                                                            .ToListAsync();
         }
 
+        public async Task<decimal> GetPrice(int productId)
+        {
+            return await _Context.Products.Where(p => p.Id == productId)
+                                          .Select(p => p.Price)
+                                          .FirstOrDefaultAsync();
+
+        }
+
         public async Task<Product> GetRelantionship(int id)
         {
             return await _Context.Products.Where(p => p.Id == id).Include(b => b.Brand).Include(c => c.Category)

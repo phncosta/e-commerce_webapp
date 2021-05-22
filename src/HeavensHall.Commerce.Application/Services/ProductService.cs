@@ -107,5 +107,7 @@ namespace HeavensHall.Commerce.Application.Services
 
             await UpdateStock(stock);
         }
+
+        public async Task<decimal> GetPrice(int productId) => await _productRepository.GetPrice(productId);
     }
 }

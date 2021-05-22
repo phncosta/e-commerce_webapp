@@ -13,6 +13,7 @@ function showBox(messageType, message) {
     }
 
     let box = document.createElement('div');
+    box.setAttribute("id", "meu_teste");
     box.innerHTML = message;
     box.classList.add(boxClassType[messageType]);
     document.body.appendChild(box);

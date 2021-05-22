@@ -9,5 +9,6 @@ namespace HeavensHall.Commerce.Application.Interfaces.Repository
         Task<Product> GetRelantionship(int id);
         Task<List<Product>> GetAllRelationships();
         Task<bool> UpdateProductStatus(int productId, bool status);
+        Task<decimal> GetPrice(int productId);
     }
 }

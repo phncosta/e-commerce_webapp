@@ -11,7 +11,10 @@ namespace HeavensHall.Commerce.Infrastructure.Data.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            Database.Migrate();
+            if (Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                Database.Migrate();
+            }
         }
 
         public DbSet<Order> Orders { get; set; }

@@ -77,7 +77,7 @@
             {
                 var image = product.Images?.Where(img => img.Main).SingleOrDefault();
                 <div class="card">
-                    <img class="card-img-top" src="img/guitarra_predator.jpg" alt="Guitarra Predator">
+                    <img class="card-img-top" src="~/@image.Path" alt="Imagem do Produto">
                     <div class="card-body">
                         <h5 class="card-title text-center">@product.Name</h5>
                         <h5 class="text-center">R$ @product.Price</h5>

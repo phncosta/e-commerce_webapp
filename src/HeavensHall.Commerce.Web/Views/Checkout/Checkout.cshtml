@@ -3,23 +3,36 @@
 <div class="container">
     <h4 class="text-center pb-2">Carrinho <i class="fas fa-shopping-cart"></i></h4>
 
-    <div class="card shadow-sm">
+    <div id="cart-body"></div>
+
+    <div class="row align-items-baseline justify-content-center pb-2 pt-3">
+        <label for="inputFrete" class="mr-2">Calcular frete</label>
+        <input type="text" id="inputFrete" class="form-control form-control-sm" placeholder="CEP">
+        <button class="btn-sm btn-secondary ml-1">Ok</button>
+    </div>
+    <div class="d-flex justify-content-end">
+        <strong>TOTAL: R$</strong>
+    </div>
+    <div class="text-center p-lg-4 btn-go-checkout">
+        <button class="btn btn-lg btn-primary mb-3 mt-2 w-50">Continuar</button>
+    </div>
+</div>
+
+<template id="product-template">
+    <div class="card shadow-sm" id="product.Id">
         <div class="card-header">
-            <a href="detalhe_produto.html" text-decoration: none;" class="font-weight-bold">
-                Guitarra Peavey
-                Predator
+            <a href="/produtos/product.Id" text-decoration: none;" class="font-weight-bold">
+                product.Name
             </a>
         </div>
         <div class="card-body">
-            <img src="img/guitarra_predator.jpg" class="rounded img-product-checkout float-left"
+            <img src="product.Image" class="rounded img-product-checkout float-left"
                  alt="Foto do Produto">
-
             <div class="d-flex justify-content-center">
-                Marca: Peavey
+                Marca: product.Brand
             </div>
-
-            <div class="d-flex justify-content-end">
-                <h6 class="p-1">R$ 1.700,00</h6>
+            <div class="d-flex justify-content-end" id="product.Id-price">
+                <h6 class="p-1">R$ product.Price</h6>
             </div>
             <div class="d-flex justify-content-end">
                 <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"
@@ -33,22 +46,59 @@
                     +
                 </button>
             </div>
-
             <div class="d-flex justify-content-end">
-                <a href="#" style="cursor: pointer;" class="text-danger">Remover</a>
+                <a href="#" style="cursor: pointer;" class="text-danger" onclick="removeFromCart('product.Id')">Remover</a>
             </div>
         </div>
     </div>
-    <div class="row align-items-baseline justify-content-center pb-2 pt-3">
-        <label for="inputFrete" class="mr-2">Calcular frete</label>
-        <input type="text" id="inputFrete" class="form-control form-control-sm" placeholder="CEP">
-        <button class="btn-sm btn-secondary ml-1">Ok</button>
-    </div>
-    <div class="d-flex justify-content-end">
-        <strong>TOTAL: R$</strong>
-    </div>
+</template>
 
-    <div class="text-center p-lg-4 btn-go-checkout">
-        <button class="btn btn-lg btn-primary mb-3 mt-2 w-50">Continuar</button>
-    </div>
-</div>
+<script>
+    'use strict';
+
+    const cartBody = document.getElementById('cart-body');
+
+    window.onload = function () {
+        let cartProducts = localStorage.getItem('cart_products');
+
+        fetch('/checkout/produtos',
+            {
+                method: 'POST',
+                body: cartProducts,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function (response) {
+                if (response.ok) {
+                    response.json()
+                        .then(data => {
+                            let products = JSON.parse(data);
+                            for (const product of products) {
+                                fillCheckout(product);
+                            }
+                        })
+                }
+            }).catch(error => {
+                console.log('Error while trying to get products: ' + error.message);
+            })
+    }
+
+    const fillCheckout = product => {
+        var baseProductTemplate = document.getElementById('product-template');
+        var template = baseProductTemplate.cloneNode(true);
+
+        template.innerHTML = replaceProductDataValues(template.innerHTML, product);
+
+        cartBody.insertAdjacentHTML('afterbegin', template.innerHTML);
+    }
+
+    const replaceProductDataValues = (html, product) => {
+        return html
+            .replaceAll('product.Price', product.Price)
+            .replaceAll('product.Name', product.Name)
+            .replaceAll('product.Id', product.Id)
+            .replaceAll('product.Image', product.Image)
+            .replaceAll('product.Brand', product.Brand)
+    }
+</script>

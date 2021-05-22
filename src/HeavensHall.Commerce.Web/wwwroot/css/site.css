@@ -55,7 +55,7 @@
     padding: .5rem;
     opacity: 0;
     border-radius: 0.75rem;
-    animation: 5s ease-in 1 fade-out;
+    /*animation: 5s ease-in 1 fade-out;*/
     animation-iteration-count: 1;
     box-shadow: 3px 3px 3px rgba(0,0,0,.2);
 }
